@@ -1,6 +1,7 @@
 -- SCRIPT PARA CREAR LA BASE DE DATOS
 
 DROP TABLE IF EXISTS usuario;
+DROP TABLE IF EXISTS producto;
 
 CREATE TABLE usuario (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -10,6 +11,13 @@ CREATE TABLE usuario (
   fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE producto (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nombre VARCHAR(100) NOT NULL,
+  precio INT NOT NULL,
+  fotoUrl VARCHAR(255)       
+);
+
 -- Inserts usuarios
 
 INSERT INTO usuario (nombre, email, contrasenya) 
@@ -17,3 +25,9 @@ VALUES ('Juan Pérez', 'juan.perez@example.com', 'password123');
 
 INSERT INTO usuario (nombre, email, contrasenya) 
 VALUES ('Ana López', 'ana.lopez@example.com', 'securepassword');
+
+INSERT INTO producto (nombre, precio) 
+VALUES ('Producto 1', 450);
+
+INSERT INTO producto (nombre, precio) 
+VALUES ('Producto 2', 1200);
