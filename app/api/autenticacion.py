@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 from ..db import db
 from ..db import Usuario
 
@@ -11,7 +11,7 @@ users = [
 ]
 
 """
-Ruta para el login de usuario, recibe email y contraseña
+Ruta para el login del usuario, recibe email y contraseña
 y devuelve un token JWT si las credenciales son correctas.
 """
 @autenticacion.route('/login', methods=['POST'])
@@ -25,7 +25,7 @@ def login():
     return jsonify({"error": "Email y contraseña son requeridos"}), 400
 
   #user = Usuario.query.filter_by(email=email).first()
-  user = for u in users if u.email == email # Simulando la consulta a la base de datos
+  user = next((u for u in users if u.email == email), None) # Simulando la consulta a la base de datos
 
   if not user:
     return jsonify({"error": "Usuario o Contraseña incorrecta"}), 400
@@ -38,11 +38,15 @@ def login():
   return jsonify({"token": access_token}), 200
 
 
+"""
+TODO Ruta para el registro del usuario
+"""
 @autenticacion.route('/register', methods=['POST'])
 def register():
   print("Registrando usuario")
   return 200
 
+# PRUEBA
 @autenticacion.route('/users', methods=['GET'])
 def get_users():
   try:
