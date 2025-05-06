@@ -28,3 +28,22 @@ class Usuario(db.Model):
         self.contrasenya = contrasenya
         self.email = email
         self.fecha_creacion = fecha_creacion
+
+# Tabla usuario en la base de datos
+class Producto(db.Model):
+    __tablename__ = 'producto'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    precio = db.Column(db.Integer, nullable=False)
+    fotoUrl = db.Column(db.String(255))
+
+    def __repr__(self):
+        return f'<Producto {self.nombre}>'
+
+    # Todo: Borrar a futuro
+    def __init__(self, id, nombre, precio, fotoUrl):
+        self.id = id
+        self.nombre = nombre
+        self.precio = precio
+        self.fotoUrl = fotourl
