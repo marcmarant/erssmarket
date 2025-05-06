@@ -37,11 +37,11 @@
         body: JSON.stringify({ email, password })
       })
       .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          window.location.href = '/';
-        } else {
+      .then((data, error) => {
+        if (error) {
           alert('Error en el inicio de sesión. Inténtalo de nuevo.');
+        } else {
+          window.location.href = '/';
         }
       })
       .catch(error => console.error('Error:', error));
