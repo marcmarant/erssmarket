@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Mi Marketplace{% endblock %}</title>
+  <title>{% block title %}Login{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
 </head>
@@ -24,5 +24,28 @@
       </div>
     </form>
   </main>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Evita el envío del formulario por defecto
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      fetch('api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          window.location.href = '/';
+        } else {
+          alert('Error en el inicio de sesión. Inténtalo de nuevo.');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
 </body>
 </html>

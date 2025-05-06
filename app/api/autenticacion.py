@@ -17,6 +17,7 @@ y devuelve un token JWT si las credenciales son correctas.
 @autenticacion.route('/login', methods=['POST'])
 @jwt_required()
 def login():
+  print("Iniciando sesión")
   data = request.json
   email = data.get('email')
   contrasenya = data.get('contrasenya')
