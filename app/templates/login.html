@@ -31,21 +31,30 @@
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
 
+      /*
+       * Llamada al endpoint api/login para autenticar al usuario
+       * Si la autenticacion es exitosa se guarda el token de sesion en sessionStorage
+       * y se redirige al usuario a la página home
+       */
       fetch('api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
       })
-      .then(response => response.json())
-      .then((data, error) => {
-        if (error) {
-          alert('Error en el inicio de sesión. Inténtalo de nuevo.');
-        } else {
-          window.location.href = '/';
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error en el inicio de sesión. Inténtalo de nuevo.');
         }
+        return response.json()
+      })
+      .then(data => {
+        sessionStorage.setItem('token', data.token)
+        window.location.href = '/';
       })
       .catch(error => console.error('Error:', error));
+
     });
   </script>
+  <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
 </body>
 </html>
