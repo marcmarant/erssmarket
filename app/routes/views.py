@@ -6,6 +6,10 @@ main = Blueprint('main', __name__)
 def home():
     return render_template('home.html');
 
+@main.route('/login')
+def login():
+    return render_template('login.html');
+
 @main.route('/selector')
 def selector():
     return render_template('selector.html');
