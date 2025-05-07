@@ -1,38 +1,31 @@
-.cabecera {
+.cabecera, .cabecera-izq, .cabecera-central, .cabecera-dcha {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.cabecera-izq, .cabecera-central, .cabecera-dch{
+    height: 100%;
+}
+
+.cabecera {
     width: 100%;
-    height: 100px;
+    height: 70px;
 }
 
 .cabecera-izq {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: flex-start;
-    width: 30%;
-    height: 100%;
-    padding-left: 5%;
+    width: 30%;    
 }
 
 .cabecera-central {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: center;
     width: 40%;
-    height: 100%;
 }
 
 .cabecera-dcha {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     justify-content: flex-end;
     width: 30%;
-    height: 100%;
-    padding-right: 5%;
     gap: 50px;
 }
 
@@ -41,7 +34,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    margin-top: 5%;
+    margin-top: 2.5%;
     margin-bottom: 5%;
     margin-left: 20%;
     margin-right: 20%;
@@ -89,33 +82,31 @@
     width: 100%;  
 }
 
-.cajaNumProductos {
+.caja5 {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
     height: 17.5%;
-    width: 100%; 
+    width: 100%;
+    gap: 5px;
 }
 
-.cajaAnadirCarrito {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 17.5%;
-    width: 100%; 
+.precio-destacado {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #ff5733;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0 0 0 8px;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+.caja2 {
+    position: relative;
 }
 
-
-.cajaPrecioTotal {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 50%;
-}
 
 
 h1, h3 {
@@ -123,8 +114,7 @@ h1, h3 {
     padding: 0;
 }
 
-
-.cajaCesta {
+.caja3 {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -132,8 +122,6 @@ h1, h3 {
     height: 100%;
     width: 50%; 
 }
-
-
 
 .caja1 {
     width: 60%;
@@ -156,6 +144,46 @@ h1, h3 {
 
 .cabecera, .cabecera a, .cabecera h1 {
     color: white;
+}
+
+
+.btn-cantidad {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-cantidad:hover {
+    background-color: #2ecc71;
+}
+
+input[type="number"] {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0.3rem;
+}
+
+input[type="number"] {
+    height: 2.5rem; 
+    line-height: 2.5rem; 
+    margin: 0;
+    padding: 0; 
+}
+
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; 
 }
 
 
