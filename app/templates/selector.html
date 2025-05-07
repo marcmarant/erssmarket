@@ -9,9 +9,7 @@
 </head>
 <body>
 
-    <header></header>
-    <main>
-
+    <header>
         <div class="cabecera">
             <div class="cabecera-izq">
                 <a href="selector.html" class="icono-mis-viajes">Pagina principal</a>
@@ -24,17 +22,40 @@
                 <a href="/selector" class="icono-mis-viajes">Mis Pedidos</a>
             </div>
         </div>
+    </header>
+    <main>
+
+       
         <div class="margen-central">
 
             <div class="caja-producto">
                 <div class="caja1">
-                    <h1>Balon de fútbol</h1>
-                    <p> "Balón de fútbol clásico, perfecto para entrenamientos y partidos. 
-                        Fabricado con materiales resistentes y cosido a máquina para mayor durabilidad. 
-                        Su superficie de cuero sintético garantiza un toque suave y un control óptimo. 
-                        Ideal para jugadores de todas las edades y niveles."
-                    </p>
-                    <p> añadir a la cesta</p>
+                    <div class="cajaTitulo">
+                        <h1>Balon de fútbol</h1>
+                    </div>
+                    <div class="cajaDescripcion">
+                        <p> "Balón de fútbol clásico, perfecto para entrenamientos y partidos. 
+                            Fabricado con materiales resistentes y cosido a máquina para mayor durabilidad. 
+                            Su superficie de cuero sintético garantiza un toque suave y un control óptimo. 
+                            Ideal para jugadores de todas las edades y niveles."
+                        </p>
+                    </div>
+                    <div class="cajaNumProductos">
+                        <div class="control-cantidad">
+                            <button class="btn-cantidad" onclick="cambiarCantidad(-1, this)">-</button>
+                            <input type="number" class="cantidad" value="0" min="0" oninput="validarCantidad(this)">
+                            <button class="btn-cantidad" onclick="cambiarCantidad(1, this)">+</button>
+                        </div>
+                    </div>
+                    <div class="cajaAnadirCarrito">
+                        <div class="cajaPrecioTotal">
+                            <h3 id="precioProducto">Precio Total: 2345€</h3>
+                        </div>
+                        <div class="cajaCesta">
+                            <button class="btn-agregar">Añadir al carrito</button>
+                        </div>
+                    </div>
+                    
                 </div>
                 <div class="caja2">
                     <img src="../static/images/balon.jpg" alt="Balón de fútbol" class="imagen-producto">
@@ -43,12 +64,31 @@
 
             <div class="caja-producto">
                 <div class="caja1">
-                    <h1>Guantes de fútbol</h1>
-                    <p> "Guantes de fútbol diseñados para ofrecer un agarre seguro y cómodo en todas las condiciones. 
-                        Fabricados con materiales transpirables y resistentes, garantizan máxima protección y durabilidad. 
-                        Su palma de látex antideslizante asegura un excelente control del balón. Ideales para entrenamientos y partidos."
-                    </p>
-                    <p> añadir a la cesta</p>
+                    <div class="cajaTitulo">
+                        <h1>Guantes de fútbol</h1>
+                    </div>
+                    <div class="cajaDescripcion">
+                        <p> "Guantes de fútbol diseñados para ofrecer un agarre seguro y cómodo en todas las condiciones. 
+                            Fabricados con materiales transpirables y resistentes, garantizan máxima protección y durabilidad. 
+                            Su palma de látex antideslizante asegura un excelente control del balón. Ideales para entrenamientos y partidos."
+                        </p>
+                    </div>
+                    <div class="cajaNumProductos">
+                        <div class="control-cantidad">
+                            <button class="btn-cantidad" onclick="cambiarCantidad(-1, this)">-</button>
+                            <input type="number" class="cantidad" value="0" min="0" oninput="validarCantidad(this)">
+                            <button class="btn-cantidad" onclick="cambiarCantidad(1, this)">+</button>
+                        </div>
+                    </div>
+                    <div class="cajaAnadirCarrito">
+                        <div class="cajaPrecioTotal">
+                            <h3 id="precioProducto">Precio Total: 2345€</h3>
+                        </div>
+                        <div class="cajaCesta">
+                            <button class="btn-agregar">Añadir al carrito</button>
+                        </div>
+                    </div>
+                    
                 </div>
                 <div class="caja2">
                     <img src="../static/images/guantes.jpg" alt="Balón de fútbol" class="imagen-producto">
@@ -56,15 +96,35 @@
             </div>
 
             <div class="caja-producto">
+                
                 <div class="caja1">
-                    <h1>Camiseta Deportiva</h1>
-                    <p> "Camiseta deportiva ligera y cómoda, ideal para entrenamientos y actividades físicas. 
-                        Fabricada con tejido transpirable que mantiene la piel fresca y seca. 
-                        Su diseño clásico y ajuste regular garantizan libertad de movimiento. 
-                        Perfecta para el día a día o el gimnasio."
-                    </p>
-                    <p> añadir a la cesta</p>
-                </div>
+                    <div class="cajaTitulo">
+                        <h1>Camiseta Deportiva</h1>
+                    </div>
+                    <div class="cajaDescripcion">
+                        <p> "Camiseta deportiva ligera y cómoda, ideal para entrenamientos y actividades físicas. 
+                            Fabricada con tejido transpirable que mantiene la piel fresca y seca. 
+                            Su diseño clásico y ajuste regular garantizan libertad de movimiento. 
+                            Perfecta para el día a día o el gimnasio."
+                        </p>
+                    </div>
+                    <div class="cajaNumProductos">
+                        <div class="control-cantidad">
+                            <button class="btn-cantidad" onclick="cambiarCantidad(-1, this)">-</button>
+                            <input type="number" class="cantidad" value="0" min="0" oninput="validarCantidad(this)">
+                            <button class="btn-cantidad" onclick="cambiarCantidad(1, this)">+</button>
+                        </div>
+                    </div>
+                    <div class="cajaAnadirCarrito">
+                        <div class="cajaPrecioTotal">
+                            <h3 id="precioProducto">Precio Total: 2345€</h3>
+                        </div>
+                        <div class="cajaCesta">
+                            <button class="btn-agregar">Añadir al carrito</button>
+                        </div>
+                    </div>
+                    
+                </div> 
                 <div class="caja2">
                     <img src="../static/images/camiseta.jpg" alt="Balón de fútbol" class="imagen-producto">
                 </div>
@@ -73,40 +133,140 @@
 
             <div class="caja-producto">
                 <div class="caja1">
-                    <h1>Pantalón Deportivo</h1>
-                    <p> "Pantalones deportivos cómodos y ligeros, perfectos para entrenar o relajarse. 
-                        Fabricados con tejido transpirable que absorbe la humedad, mantienen la frescura en cada movimiento. 
-                        Su corte ajustado pero flexible garantiza libertad y confort. 
-                        Ideales para el gimnasio o el uso diario."
-                    </p>
-                    <p> añadir a la cesta</p>
-                </div>
+                    <div class="cajaTitulo">
+                        <h1>Pantalón Deportivo</h1>
+                    </div>
+                    <div class="cajaDescripcion">
+                        <p> "Pantalones deportivos cómodos y ligeros, perfectos para entrenar o relajarse. 
+                            Fabricados con tejido transpirable que absorbe la humedad, mantienen la frescura en cada movimiento. 
+                            Su corte ajustado pero flexible garantiza libertad y confort. 
+                            Ideales para el gimnasio o el uso diario."
+                        </p>
+                    </div>
+                    <div class="cajaNumProductos">
+                        <div class="control-cantidad">
+                            <button class="btn-cantidad" onclick="cambiarCantidad(-1, this)">-</button>
+                            <input type="number" class="cantidad" value="0" min="0" oninput="validarCantidad(this)">
+                            <button class="btn-cantidad" onclick="cambiarCantidad(1, this)">+</button>
+                        </div>
+                    </div>
+                    <div class="cajaAnadirCarrito">
+                        <div class="cajaPrecioTotal">
+                            <h3 id="precioProducto">Precio Total: 2345€</h3>
+                        </div>
+                        <div class="cajaCesta">
+                            <button class="btn-agregar">Añadir al carrito</button>
+                        </div>
+                    </div>
+                    
+                </div>                
                 <div class="caja2">
                     <img src="../static/images/pantalon.jpg" alt="Balón de fútbol" class="imagen-producto">
-                </div>
-                 
+                </div>               
             </div>
 
             <div class="caja-producto">
                 <div class="caja1">
-                    <h1>Zapatillas Deportivas</h1>
-                    <p> "Zapatillas deportivas versátiles y cómodas, diseñadas para entrenamientos y uso diario. 
-                        Cuentan con una suela antideslizante que ofrece tracción y estabilidad. 
-                        Su plantilla acolchada garantiza amortiguación en cada paso. 
-                        Perfectas para mantener el ritmo en cualquier actividad."
-                    </p>
-                    <p> añadir a la cesta</p>
-                </div>
+                    <div class="cajaTitulo">
+                        <h1>Zapatillas Deportivas</h1>
+                    </div>
+                    <div class="cajaDescripcion">
+                        <p> "Zapatillas deportivas versátiles y cómodas, diseñadas para entrenamientos y uso diario. 
+                            Cuentan con una suela antideslizante que ofrece tracción y estabilidad. 
+                            Su plantilla acolchada garantiza amortiguación en cada paso. 
+                            Perfectas para mantener el ritmo en cualquier actividad."
+                        </p>
+                    </div>
+                    <div class="cajaNumProductos">
+                        <div class="control-cantidad">
+                            <button class="btn-cantidad" onclick="cambiarCantidad(-1, this)">-</button>
+                            <input type="number" class="cantidad" value="0" min="0" oninput="validarCantidad(this)">
+                            <button class="btn-cantidad" onclick="cambiarCantidad(1, this)">+</button>
+                        </div>
+                    </div>
+                    <div class="cajaAnadirCarrito">
+                        <div class="cajaPrecioTotal">
+                            <h3 id="precioProducto">Precio Total: 2345€</h3>
+                        </div>
+                        <div class="cajaCesta">
+                            <button class="btn-agregar">Añadir al carrito</button>
+                        </div>
+                    </div>
+                    
+                </div> 
                 <div class="caja2">
                     <img src="../static/images/zapatilla.jpg" alt="Balón de fútbol" class="imagen-producto">
                 </div>
-                 
-            </div>
-           
-            
+            </div>           
         </div>
        
     </main>
 
 </body>
+
+
+<style>
+.control-cantidad {
+    display: flex;
+    align-items: center; /* Alinear al centro verticalmente */
+    gap: 5px;
+}
+
+
+.btn-cantidad {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-cantidad:hover {
+    background-color: #2ecc71;
+}
+
+input[type="number"] {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0.3rem;
+}
+
+input[type="number"] {
+    height: 2.5rem; /* Ajusta la altura para que coincida con los botones */
+    line-height: 2.5rem; /* Alineación vertical */
+    margin: 0;
+    padding: 0; /* Eliminar padding que pueda desalinear */
+}
+
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield; /* Para Firefox */
+}
+
+</style>
+
+<script>
+    function cambiarCantidad(cambio, elemento) {
+        const cantidadInput = elemento.parentElement.querySelector('.cantidad');
+        let cantidad = parseInt(cantidadInput.value) || 0;
+        cantidad = Math.max(0, cantidad + cambio);
+        cantidadInput.value = cantidad;
+    }
+    
+    function validarCantidad(input) {
+        if (input.value < 0) {
+            input.value = 0;
+        }
+    }
+    </script>
+
 </html>

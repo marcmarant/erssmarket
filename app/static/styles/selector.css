@@ -13,7 +13,6 @@
     justify-content: flex-start;
     width: 30%;
     height: 100%;
-    border: solid black 2px;
     padding-left: 5%;
 }
 
@@ -24,7 +23,6 @@
     justify-content: center;
     width: 40%;
     height: 100%;
-    border: solid black 2px;
 }
 
 .cabecera-dcha {
@@ -34,7 +32,6 @@
     justify-content: flex-end;
     width: 30%;
     height: 100%;
-    border: solid black 2px;
     padding-right: 5%;
     gap: 50px;
 }
@@ -57,7 +54,7 @@
     align-items: center;
     justify-content: space-between; 
     width: 90%;
-    height: 350px;      
+    height: 450px;      
     flex-shrink: 0;      
     overflow: hidden;
     border: solid black 2px;    
@@ -73,6 +70,70 @@
     flex-shrink: 0;
     word-wrap: break-word;
 }
+
+.cajaTitulo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 15%;
+    width: 100%;
+}
+
+.cajaDescripcion {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 40%;
+    width: 100%;  
+}
+
+.cajaNumProductos {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 17.5%;
+    width: 100%; 
+}
+
+.cajaAnadirCarrito {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 17.5%;
+    width: 100%; 
+}
+
+
+.cajaPrecioTotal {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 50%;
+}
+
+
+h1, h3 {
+    margin: 0;           
+    padding: 0;
+}
+
+
+.cajaCesta {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 50%; 
+}
+
+
 
 .caja1 {
     width: 60%;
@@ -92,3 +153,9 @@
     object-fit: cover;  
     border-radius: 5px; 
 }
+
+.cabecera, .cabecera a, .cabecera h1 {
+    color: white;
+}
+
+
