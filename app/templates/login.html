@@ -48,13 +48,11 @@
         return response.json()
       })
       .then(data => {
-        sessionStorage.setItem('token', data.token)
         window.location.href = '/';
       })
       .catch(error => console.error('Error:', error));
 
     });
   </script>
-  <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
 </body>
 </html>

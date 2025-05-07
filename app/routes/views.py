@@ -17,6 +17,7 @@ def login():
     current_user = get_jwt_identity()
     print(current_user)
     if current_user:
+        print("Usuario loggeado")
         return redirect(url_for('main.home'))
     return render_template('login.html');
 
