@@ -1,28 +1,23 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Login{% endblock %}</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
-</head>
-<body>
-  <main>
-    <form id="loginForm">
-      <div>
-        <label for="username">Email:</label>
-        <input type="text" id="email" name="email" required>
-      </div>
-      <div>
-        <label for="username">Contraseña:</label>
-        <input type="text" id="password" name="password" required>
-        <button type="submit">Login</button>
-      </div>
-    </form>
-  </main>
+{% extends "base/auth.html" %}
+
+{% block title %}Inicio - ErssMarket{% endblock %}
+
+{% block inputs %}
+  <div class="input-container">
+    <label for="username">Email:</label>
+    <input type="text" id="email" name="email" required>
+  </div>
+  <div class="input-container">
+    <label for="username">Contraseña:</label>
+    <input type="text" id="password" name="password" required>
+  </div>
+{% endblock %}
+
+{% block submit_text %}Login{% endblock %}
+
+{% block script %}
   <script>
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
+    document.getElementById('authForm').addEventListener('submit', function(event) {
       event.preventDefault(); // Evita el envío del formulario por defecto
 
       const email = document.getElementById('email').value;
@@ -51,5 +46,4 @@
 
     });
   </script>
-</body>
-</html>
+{% endblock %}

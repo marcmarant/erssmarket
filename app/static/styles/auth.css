@@ -1,0 +1,44 @@
+main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-container {
+  position: relative;
+  width: 470px;
+  height: 500px;
+  background-color: #fff;
+  padding: 3rem 2rem 3rem 2rem;
+  border-radius: 1.5rem;
+}
+
+.form-container h1 {
+  position: absolute;
+  top: 1rem;
+}
+
+form {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+form button {
+  width: 125px;
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.input-container {
+  width: 100%;
+  max-width: 280px;
+}
