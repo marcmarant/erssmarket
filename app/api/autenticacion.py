@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import jwt_required, create_access_token, set_access_cookies, unset_jwt_cookies, get_jwt_identity
 from ..db import db
 from ..db import Usuario
 
@@ -9,6 +9,16 @@ users = [
   Usuario(1, 'Juan Pérez', 'juan.perez@example.com', 'pass123', '2025-04-30T12:34:56'),
   Usuario(2, 'Ana López', 'ana.lopez@example.com', 'asv134', '2025-04-30T13:45:12')
 ]
+
+
+"""
+TODO Ruta para el registro del usuario
+"""
+@autenticacion.route('/register', methods=['POST'])
+def register():
+  print("Registrando usuario")
+  return 200
+
 
 """
 Ruta para el login del usuario, recibe email y contraseña
@@ -33,17 +43,25 @@ def login():
   if user.contrasenya != password:
     return jsonify({"error": "Usuario o Contraseña incorrecta"}), 400
 
-  access_token = create_access_token(identity={"id": user.id, "nombre": user.nombre, "email": user.email})
-  return jsonify({"token": access_token}), 200
+  response = jsonify({"message": "Inicio de sesión realizado con éxito"})
+  access_token = create_access_token(
+    identity=str(user.id), # El id del usuario es el identity del token
+    expires_delta=False,  # El token no expira
+  )
+  set_access_cookies(response, access_token)
+  return response, 200
 
 
 """
-TODO Ruta para el registro del usuario
+Ruta para el logout del usuario, borrando la cookie con el token JWT
 """
-@autenticacion.route('/register', methods=['POST'])
-def register():
-  print("Registrando usuario")
-  return 200
+@autenticacion.route('/logout', methods=['POST'])
+def logout():
+  response = jsonify({"message": "Logout realizado con éxito"})
+  unset_jwt_cookies(response)
+  return response, 200
+
+
 
 # PRUEBA
 @autenticacion.route('/users', methods=['GET'])

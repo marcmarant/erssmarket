@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}ErssMarket{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+</head>
+<body>
+  <header>
+    <span>EM</span>
+    <nav>
+        Aqui irian los enlaces a las diferentes secciones
+    </nav>
+    <button id="logoutButton">Cerrar sesión</button>
+  </header>
+
+  <main>
+    {% block content %}
+      <div>
+        <label for="username">Email:</label>
+        <input type="text" id="email" name="email" required>
+      </div>
+      <div>
+        <label for="username">Contraseña:</label>
+        <input type="text" id="password" name="password" required>
+      </div>
+    {% endblock %}
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Mi Marketplace</p>
+  </footer>
+  
+  <script>
+    document.getElementById('logoutButton').addEventListener('click', function() {
+      /*
+       * Llamada al endpoint api/logout para cerrar la sesion
+       * Se borra la cookie con el token de sesion y se redirige al usuario a login
+       */
+      fetch('/api/logout', {
+        method: 'POST',
+        credentials: 'same-origin'
+      })
+      .then(response => {
+        if (response.ok) {
+          window.location.href = '/login';
+        } else {
+          console.error('Error al cerrar sesión');
+        }
+      })
+      .catch(error => console.error('Error:', error));
+    });
+  </script>
+</body>
+</html>
