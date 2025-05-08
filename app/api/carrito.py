@@ -6,12 +6,27 @@ carrito = Blueprint('carrito', __name__)
 
 
 @carrito.route('/agregar', methods=['POST'])
-def get_products():
+def agregar_al_carrito():
   try:
-    get_products_query()
-    return jsonify(products_list), 200
-  except Exception as e:
-    print(f"Error al obtener los productos: {e}")
-    return jsonify({"error": "Error al obtener los productos"}), 500
+    data = request.get_json()
+    usuario_id = data.get('usuario_id')
+    producto_id = data.get('id')
+    cantidad = int (data.get('cantidad'))
 
-#  /api/productos/{id}
+  if cantidad <= 0:
+    return jsonify({'error': 'cantidad incorrecta'})
+
+    producto = Carrito.query.filter_by(usuario_id=usuario_id, producto_id=producto_id).first()
+
+    if producto:
+      producto.cantidad += cantidad
+    else:
+      producto = Carrito(usuario_id=usuario_id, producto_id=producto_id, cantidad=cantidad)
+      db.session.add(producto)
+
+    db.session.commit()
+    return jsonify({'message': f'Producto añadido al carrito correctamente. Cantidad: {cantidad}'}), 201
+  except Exception as e:
+    db.session.rollback()
+    return jsonify({"error": str(e)}), 500
+
