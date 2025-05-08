@@ -7,10 +7,6 @@ main = Blueprint('main', __name__)
 def home():
     return render_template('home.html');
 
-@main.route('/home2')
-def home2():
-    return render_template('home2.html');
-
 """
 Ruta con la vista para iniciar sesión en la aplicación
 Si el usuario ya está loggeado se le redirige a home
