@@ -1,208 +1,44 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Selector de productos</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
+
+{% extends "base/base.html" %}
+
+{% block title %}Selector de productos{% endblock %}
+
+{% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/selector.css') }}">
-</head>
-<body>
+{% endblock %}
 
-    <header>
-        <div class="cabecera">
-            <div class="cabecera-izq">
-                <a href="selector.html" class="icono-mis-viajes">Pagina principal</a>
-            </div>
-            <div class="cabecera-central">
-                <h1>Mi Marketplace</h1>
-            </div>
-            <div class="cabecera-dcha">             
-                <a href="/selector" class="icono-mis-viajes">Mi Carrito</a>
-                <a href="/selector" class="icono-mis-viajes">Mis Pedidos</a>
-            </div>
-        </div>
-    </header>
-    <main>
-       
-        <div class="margen-central">
+{% block content %}
+<div class="margen-central">
 
-            <div class="caja-producto">
-                <div class="caja1">
-                    <div class="cajaTitulo">
-                        <h1>Balon de fútbol</h1>
-                    </div>
-                    <div class="cajaDescripcion">
-                        <p> Balón de fútbol clásico, perfecto para entrenamientos y partidos. 
-                            Fabricado con materiales resistentes y cosido a máquina para mayor durabilidad. 
-                            Su superficie de cuero sintético garantiza un toque suave y un control óptimo. 
-                            Ideal para jugadores de todas las edades y niveles.
-                        </p>
-                    </div>
-                    <div class="caja5">
-                            <button class="btn-cantidad" onclick="cambiarCantidad(-1, this)">-</button>
-                            <input type="number" class="cantidad" value="0" min="0" oninput="validarCantidad(this)">
-                            <button class="btn-cantidad" onclick="cambiarCantidad(1, this)">+</button>
-                    </div>
-                    <div class="caja5">
-                        <div class="caja3">
-                            <h3 id="precioProducto">Precio Total: 0€</h3>
-                        </div>
-                        <div class="caja3">
-                            <button class="btn-agregar" onclick="añadirAlCarrito(this)">Añadir al carrito</button>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="caja2">
-                    <div class="precio-destacado">25€</div>
-                    <img src="../static/images/balon.jpg" alt="Balón de fútbol" class="imagen-producto">
-                </div>              
+    {% for producto in productos %}
+    <div class="caja-producto">
+        <div class="caja1">
+                <h1>{{ producto.nombre }}</h1>
+                <br>
+                <p> {{ producto.descripcion }} </p>
+                <br>
+            <div class="cantidad-control">
+                <button class="btn-cantidad" onclick="cambiarCantidad(-1, this)">-</button>
+                <input type="number" class="cantidad" value="0" min="0" oninput="validarCantidad(this)">
+                <button class="btn-cantidad" onclick="cambiarCantidad(1, this)">+</button>
             </div>
+                               
+            <div class="caja5">       
+                <h3 id="precioProducto">Precio Total: 0€</h3> 
+                <button class="btn-agregar" onclick="añadirAlCarrito(this)">Añadir al carrito</button>              
+            </div>      
+        </div>                
+        <div class="caja2">
+            <div class="precio-destacado">{{producto.precio}}€</div>
+            <img src={{producto.fotoUrl}} alt={{producto.nombre}} class="imagen-producto">
+        </div>               
+    </div>
+    {% endfor %}
+               
+</div>
+{% endblock %}
 
-            <div class="caja-producto">
-                <div class="caja1">
-                    <div class="cajaTitulo">
-                        <h1>Guantes de fútbol</h1>
-                    </div>
-                    <div class="cajaDescripcion">
-                        <p> Guantes de fútbol diseñados para ofrecer un agarre seguro y cómodo en todas las condiciones. 
-                            Fabricados con materiales transpirables y resistentes, garantizan máxima protección y durabilidad. 
-                            Su palma de látex antideslizante asegura un excelente control del balón. 
-                            Ideales para entrenamientos y partidos.
-                        </p>
-                    </div>
-                    <div class="caja5">
-                        <div class="control-cantidad">
-                            <button class="btn-cantidad" onclick="cambiarCantidad(-1, this)">-</button>
-                            <input type="number" class="cantidad" value="0" min="0" oninput="validarCantidad(this)">
-                            <button class="btn-cantidad" onclick="cambiarCantidad(1, this)">+</button>
-                        </div>
-                    </div>
-                    <div class="caja5">
-                        <div class="caja3">
-                            <h3 id="precioProducto">Precio Total: 0€</h3>
-                        </div>
-                        <div class="caja3">
-                            <button class="btn-agregar" onclick="añadirAlCarrito(this)">Añadir al carrito</button>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div class="caja2">
-                    <div class="precio-destacado">15€</div>
-                    <img src="../static/images/guantes.jpg" alt="Guantes de fútbol" class="imagen-producto">
-                </div>                 
-            </div>
-
-            <div class="caja-producto">
-                
-                <div class="caja1">
-                    <div class="cajaTitulo">
-                        <h1>Camiseta Deportiva</h1>
-                    </div>
-                    <div class="cajaDescripcion">
-                        <p> Camiseta deportiva ligera y cómoda, ideal para entrenamientos y actividades físicas. 
-                            Fabricada con tejido transpirable que mantiene la piel fresca y seca. 
-                            Su diseño clásico y ajuste regular garantizan libertad de movimiento. 
-                            Perfecta para el día a día o el gimnasio.
-                        </p>
-                    </div>
-                    <div class="caja5">
-                        
-                        <button class="btn-cantidad" onclick="cambiarCantidad(-1, this)">-</button>
-                        <input type="number" class="cantidad" value="0" min="0" oninput="validarCantidad(this)">
-                        <button class="btn-cantidad" onclick="cambiarCantidad(1, this)">+</button>
-                        
-                    </div>
-                    <div class="caja5">
-                        <div class="caja3">
-                            <h3 id="precioProducto">Precio Total: 0€</h3>
-                        </div>
-                        <div class="caja3">
-                            <button class="btn-agregar" onclick="añadirAlCarrito(this)">Añadir al carrito</button>
-                        </div>
-                    </div>
-                    
-                </div> 
-                <div class="caja2">
-                    <div class="precio-destacado">25€</div>
-                    <img src="../static/images/camiseta.jpg" alt="Camiseta Deportiva" class="imagen-producto">
-                </div>
-                 
-            </div>
-
-            <div class="caja-producto">
-                <div class="caja1">
-                    <div class="cajaTitulo">
-                        <h1>Pantalón Deportivo</h1>
-                    </div>
-                    <div class="cajaDescripcion">
-                        <p> "Pantalones deportivos cómodos y ligeros, perfectos para entrenar o relajarse. 
-                            Fabricados con tejido transpirable que absorbe la humedad, mantienen la frescura en cada movimiento. 
-                            Su corte ajustado pero flexible garantiza libertad y confort. 
-                            Ideales para el gimnasio o el uso diario."
-                        </p>
-                    </div>
-                    <div class="caja5">                       
-                        <button class="btn-cantidad" onclick="cambiarCantidad(-1, this)">-</button>
-                        <input type="number" class="cantidad" value="0" min="0" oninput="validarCantidad(this)">
-                        <button class="btn-cantidad" onclick="cambiarCantidad(1, this)">+</button>
-                    </div>
-                    <div class="caja5">
-                        <div class="caja3">
-                            <h3 id="precioProducto">Precio Total: 0€</h3>
-                        </div>
-                        <div class="caja3">
-                            <button class="btn-agregar" onclick="añadirAlCarrito(this)">Añadir al carrito</button>
-                        </div>
-                    </div>
-                    
-                </div>                
-                <div class="caja2">
-                    <div class="precio-destacado">30€</div>
-                    <img src="../static/images/pantalon.jpg" alt="Pantalon Deportivo" class="imagen-producto">
-                </div>               
-            </div>
-
-            <div class="caja-producto">
-                <div class="caja1">
-                    <div class="cajaTitulo">
-                        <h1>Zapatillas Deportivas</h1>
-                    </div>
-                    <div class="cajaDescripcion">
-                        <p> Zapatillas deportivas versátiles y cómodas, diseñadas para entrenamientos y uso diario. 
-                            Cuentan con una suela antideslizante que ofrece tracción y estabilidad. 
-                            Su plantilla acolchada garantiza amortiguación en cada paso. 
-                            Perfectas para mantener el ritmo en cualquier actividad.
-                        </p>
-                    </div>
-                    <div class="caja5">
-                        <button class="btn-cantidad" onclick="cambiarCantidad(-1, this)">-</button>
-                        <input type="number" class="cantidad" value="0" min="0" oninput="validarCantidad(this)">
-                        <button class="btn-cantidad" onclick="cambiarCantidad(1, this)">+</button>
-                    </div>
-                    <div class="caja5">
-                        <div class="caja3">
-                            
-                            <h3 id="precioProducto">Precio Total: 0€</h3>
-                        </div>
-                        <div class="caja3">
-                            <button class="btn-agregar" onclick="añadirAlCarrito(this)">Añadir al carrito</button>
-                        </div>
-                    </div>
-                    
-                </div> 
-                <div class="caja2">
-                    <div class="precio-destacado">50€</div>
-                    <img src="../static/images/zapatilla.jpg" alt="Zapatillas Deportivas" class="imagen-producto">
-                </div>
-            </div>           
-        </div>
-       
-    </main>
-
-</body>
+{% block script %}
 
 <script>
     function cambiarCantidad(cambio, elemento) {
@@ -223,21 +59,28 @@
     function actualizarPrecio(elemento) {
         const producto = elemento.closest('.caja-producto');
         const cantidad = parseInt(producto.querySelector('.cantidad').value) || 0;
-        const precioUnitario = parseFloat(producto.querySelector('.precio-destacado').textContent.replace('€', ''));
+        const precioUnitario = parseFloat(producto.querySelector('.precio-destacado').textContent.replace('€', '').trim());
         const precioTotal = cantidad * precioUnitario;
         const precioElemento = producto.querySelector('#precioProducto');
         precioElemento.textContent = `Precio Total: ${precioTotal.toFixed(2)}€`;
     }
 
     function añadirAlCarrito(elemento) {
-    const producto = elemento.closest('.caja-producto');
+        const producto = elemento.closest('.caja-producto');
+        const nombreProducto = producto.querySelector('.cajaTitulo h1').textContent;
+        const cantidad = parseInt(producto.querySelector('.cantidad').value) || 0;
 
-    producto.querySelector('.cantidad').value = 0;
+        // Simulación de añadir al carrito (puedes modificar para que haga una petición al backend)
+        if (cantidad > 0) {
+            alert(`Producto "${nombreProducto}" añadido al carrito con cantidad: ${cantidad}`);
+        }
 
-    producto.querySelector('#precioProducto').textContent = "Precio Total: 0€";
-}
+        // Reiniciar cantidad y precio total
+        producto.querySelector('.cantidad').value = 0;
+        producto.querySelector('#precioProducto').textContent = "Precio Total: 0€";
+    }
 
-    </script>
+</script>
 
-    
-</html>
+{% endblock %}
+

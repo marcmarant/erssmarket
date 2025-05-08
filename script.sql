@@ -18,6 +18,8 @@ CREATE TABLE producto (
   fotoUrl VARCHAR(255)       
 );
 
+
+
 -- Inserts usuarios
 
 INSERT INTO usuario (nombre, email, contrasenya) 

@@ -29,12 +29,13 @@ class Usuario(db.Model):
         self.email = email
         self.fecha_creacion = fecha_creacion
 
-# Tabla usuario en la base de datos
+# Tabla producto en la base de datos
 class Producto(db.Model):
     __tablename__ = 'producto'
 
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False)
+    descripcion = db.Column(db.String(255), nullable=True)  
     precio = db.Column(db.Integer, nullable=False)
     fotoUrl = db.Column(db.String(255))
 
@@ -42,8 +43,9 @@ class Producto(db.Model):
         return f'<Producto {self.nombre}>'
 
     # Todo: Borrar a futuro
-    def __init__(self, id, nombre, precio, fotoUrl):
+    def __init__(self, id, nombre, descripcion, precio, fotoUrl):
         self.id = id
         self.nombre = nombre
+        self.descripcion = descripcion  
         self.precio = precio
-        self.fotoUrl = fotourl
+        self.fotoUrl = fotoUrl

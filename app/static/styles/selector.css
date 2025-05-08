@@ -1,34 +1,3 @@
-.cabecera, .cabecera-izq, .cabecera-central, .cabecera-dcha {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.cabecera-izq, .cabecera-central, .cabecera-dch{
-    height: 100%;
-}
-
-.cabecera {
-    width: 100%;
-    height: 70px;
-}
-
-.cabecera-izq {
-    justify-content: flex-start;
-    width: 30%;    
-}
-
-.cabecera-central {
-    justify-content: center;
-    width: 40%;
-}
-
-.cabecera-dcha {
-    justify-content: flex-end;
-    width: 30%;
-    gap: 50px;
-}
-
 .margen-central {
     display: flex;
     flex-direction: column;
@@ -64,23 +33,17 @@
     word-wrap: break-word;
 }
 
-.cajaTitulo {
+.caja3 {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    height: 15%;
-    width: 100%;
+    padding: 1%;
+    height: 100%;
+    flex-shrink: 0;
+    word-wrap: break-word;
 }
 
-.cajaDescripcion {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 40%;
-    width: 100%;  
-}
 
 .caja5 {
     display: flex;
@@ -89,8 +52,15 @@
     justify-content: center;
     height: 17.5%;
     width: 100%;
-    gap: 5px;
+    gap: 20px;
 }
+
+.cantidad-control {
+    display: flex;
+    align-items: center;
+    gap: 5px; 
+}
+
 
 .precio-destacado {
     position: absolute;

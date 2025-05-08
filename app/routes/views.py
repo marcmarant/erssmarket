@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, url_for, redirect
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from ..api.productos import get_products_query
 
 main = Blueprint('main', __name__)
 
 @main.route('/')
 def home():
-    return render_template('home.html');
+    return render_template('home.html')
 
 """
 Ruta con la vista para iniciar sesión en la aplicación
@@ -18,8 +19,9 @@ def login():
     print(current_user)
     if current_user:
         return redirect(url_for('main.home'))
-    return render_template('login.html');
+    return render_template('login.html')
 
 @main.route('/selector')
 def selector():
-    return render_template('selector.html');
+    products = get_products_query()
+    return render_template('selector.html', productos = products)
