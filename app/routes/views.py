@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, url_for, redirect
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from ..api.productos import get_products_query
+from ..api.productos import get_products
 
 main = Blueprint('main', __name__)
 
@@ -23,5 +23,5 @@ def login():
 
 @main.route('/selector')
 def selector():
-    products = get_products_query()
-    return render_template('selector.html', productos = products)
+    productos = get_products()
+    return render_template('selector.html', productos = productos)

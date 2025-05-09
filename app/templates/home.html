@@ -2,9 +2,40 @@
 
 {% block title %}Inicio - ErssMarket{% endblock %}
 
-{% block content %}
-    <h2>Bienvenido a Mi Marketplace</h2>
-    <p>Esta es la página de inicio.</p>
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/home.css') }}">
+{% endblock %}
 
-    <p>Y bueno no se que mas poner aqui irian cosas</p>
+{% block content %}
+<div class="main-container">
+    
+    <div class="item-container">
+        <div class="trapecio-reverse left">
+                <p>¡Descubre nuestra selección deportiva!</p>
+                <br>
+                <p>Aprovecha nuestras ofertas y oportunidades únicas.</p>
+        </div>
+        <div class="trapecio-reverse right"></div>
+    </div>
+
+    <div class="item-container">
+        <div class="trapecio left"> </div>
+        <div class="trapecio right">  
+                <p>Tu carrito de compras</p>
+                <br>
+                <p>Consulta aquí los productos que has añadido y finaliza tu compra de forma sencilla.</p>
+        </div>
+    </div>
+
+    <div class="item-container">
+        <div class="trapecio-reverse left">
+            <p>Revisa el estado de tus pedidos</p>
+            <br>
+            <p>Aquí podrás ver todos los pedidos que has realizado y consultar sus detalles de forma rápida y fácil.</p>
+        </div>
+        <div class="trapecio-reverse right third-image"></div>
+    </div>
+
+
+</div>
 {% endblock %}
