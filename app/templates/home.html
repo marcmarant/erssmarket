@@ -8,16 +8,7 @@
 
 {% block content %}
 <div class="main-container">
-
-    {% if user_id == "guest" %}
-    <p>Bienvenido, usuario invitado</p>
-    <p>Algunas funciones pueden estar restringidas</p>
-    {% else %}
-        <p>Bienvenido, {{ user_id }}. Has iniciado sesión correctamente como {{ role }}.</p>
-    {% endif %}
-
-
-    
+  
     <div class="item-container">
         <div class="trapecio-reverse left">
                 <p>¡Descubre nuestra selección deportiva!</p>
