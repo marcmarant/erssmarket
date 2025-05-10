@@ -8,16 +8,16 @@
 
 {% block content %}
 <div class="main-container">
-  
-    <div class="item-container">
+    
+    <div class="item-container clickable" onclick="location.href='/selector?user_id={{ usuario.id }}'">
         <div class="trapecio-reverse left">
-                <p>¡Descubre nuestra selección deportiva!</p>
-                <br>
-                <p>Aprovecha nuestras ofertas y oportunidades únicas.</p>
+            <p>¡Descubre nuestra selección deportiva!</p>
+            <br>
+            <p>Aprovecha nuestras ofertas y oportunidades únicas.</p>
         </div>
         <div class="trapecio-reverse right"></div>
     </div>
-
+    
     <div class="item-container">
         <div class="trapecio left"> </div>
         <div class="trapecio right">  
@@ -39,3 +39,4 @@
 
 </div>
 {% endblock %}
+

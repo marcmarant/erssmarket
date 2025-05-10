@@ -24,7 +24,7 @@
         <i class="fas fa-list"></i>
       </a>
 
-      {% if usuario %}
+      {% if usuario %} <!-- En funcion de si el usuairo se identifico se mostrara un boton u otro.-->
         <button id="logoutButton">Log Out <i class="fas fa-sign-out-alt"></i></button>
       {% else %}
         <button id="loginButton">Login <i class="fas fa-sign-in-alt"></i></button>
@@ -42,11 +42,10 @@
 
   {% block script %}{% endblock %}
   
-  <script>
-    // Espera a que el DOM esté completamente cargado
+  <script>  // Trata las llamadas que se porducen si hay un boton login o logout
+
     document.addEventListener('DOMContentLoaded', function() {
       
-      // Verifica si el botón de logout existe y añade el listener
       const logoutButton = document.getElementById('logoutButton');
       if (logoutButton) {
         logoutButton.addEventListener('click', function() {
@@ -65,7 +64,6 @@
         });
       }
       
-      // Verifica si el botón de login existe y añade el listener
       const loginButton = document.getElementById('loginButton');
       if (loginButton) {
         loginButton.addEventListener('click', function() {
