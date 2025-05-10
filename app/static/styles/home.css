@@ -1,20 +1,3 @@
-.container {
-  width: 80%;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-ul {
-  list-style-type: none;
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-li {
-  margin: 0 15px;
-}
-
 .main-container {
   display: flex;
   flex-wrap: wrap;
@@ -36,6 +19,7 @@ li {
   font-size: 1.2em;
   transition: transform 0.3s ease, box-shadow 0.3s ease; 
   transform-origin: center; 
+  border-radius: 10px; 
 }
 
 .item-container:hover {
@@ -43,17 +27,20 @@ li {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
 }
 
-.item-container-reverse:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+.trapecio, .trapecio-reverse {
+  width: 50%;
+  height: 100%; 
+  position: relative; 
 }
 
 .trapecio {
-  width: 50%;
-  height: 100%;
-  clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%); 
-  position: relative; 
-  border-radius: 10px; 
+  border-radius: 10px 0 0 10px;
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%)
+}
+
+.trapecio-reverse {
+  border-radius: 0 10px 10px 0;
+  clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
 }
 
 .trapecio.left{
@@ -67,14 +54,6 @@ li {
 .trapecio.left, .trapecio-reverse.right{
   background-size: cover;
   background-position: center;
-}
-
-.traprecio.trapecio.left, .trapecio-reverse.left{
-border-radius: 10px 0 0 10px;
-}
-
-.trapecio-reverse.right, .trapecio.right{
-  border-radius: 0 10px 10px 0;
 }
 
 .trapecio-reverse.right.third-image{
@@ -95,18 +74,14 @@ border-radius: 10px 0 0 10px;
 }
 
 .trapecio.right{
+  border-radius: 0 10px 10px 0;
   clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
   padding-left: 5%;
 }
+
 .trapecio-reverse.left{
   clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
   padding-right: 5%;
+  border-radius: 10px 0 0 10px;
 }
 
-.trapecio-reverse {
-  width: 50%;
-  height: 100%;
-  clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
-  position: relative;
-  border-radius: 10px;
-}

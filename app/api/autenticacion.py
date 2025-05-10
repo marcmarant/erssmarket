@@ -57,9 +57,9 @@ Ruta para el logout del usuario, borrando la cookie con el token JWT
 """
 @autenticacion.route('/logout', methods=['POST'])
 def logout():
-  response = jsonify({"message": "Logout realizado con éxito"})
-  unset_jwt_cookies(response)
-  return response, 200
+    response = jsonify({"message": "Logout realizado con éxito"})
+    unset_jwt_cookies(response)  # Esto elimina el JWT de las cookies
+    return response, 200
 
 
 
