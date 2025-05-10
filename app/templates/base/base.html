@@ -6,8 +6,7 @@
   <title>{% block title %}ErssMarket{% endblock %}</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles/index.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  {% block head %}
-  {% endblock %}
+  {% block head %}{% endblock %}
 </head>
 <body>
   <header>
@@ -24,41 +23,56 @@
       <a href="/selector">
         <i class="fas fa-list"></i>
       </a>
-      <button id="logoutButton">Log Out <i class="fas fa-sign-out-alt"></i></button>
+
+      {% if usuario %}
+        <button id="logoutButton">Log Out <i class="fas fa-sign-out-alt"></i></button>
+      {% else %}
+        <button id="loginButton">Login <i class="fas fa-sign-in-alt"></i></button>
+      {% endif %}
     </nav>
   </header>
 
   <main>
-    {% block content %}
-      <!-- Bloque para añadir el contenido principal de la página -->
-    {% endblock %}
+    {% block content %} <!-- Bloque para añadir el contenido principal de la página --> {% endblock %}
   </main>
 
   <footer>
     <p>&copy; 2025 ERSS Marketplace</p>
   </footer>
+
+  {% block script %}{% endblock %}
   
-  {% block script %}
-    <!-- Bloque para añadir otro script -->
-  {% endblock %}
   <script>
-    document.getElementById('logoutButton').addEventListener('click', function() {
-      /*
-       * Llamada al endpoint api/logout para cerrar la sesion
-       * Se borra la cookie con el token de sesion y se redirige al usuario a login
-       */
-      fetch('/api/logout', {
-        method: 'POST',
-        credentials: 'same-origin'
-      })
-      .then(response => {
-        if (response.ok) {
+    // Espera a que el DOM esté completamente cargado
+    document.addEventListener('DOMContentLoaded', function() {
+      
+      // Verifica si el botón de logout existe y añade el listener
+      const logoutButton = document.getElementById('logoutButton');
+      if (logoutButton) {
+        logoutButton.addEventListener('click', function() {
+          fetch('/api/logout', {
+            method: 'POST',
+            credentials: 'same-origin'
+          })
+          .then(response => {
+            if (response.ok) {
+              window.location.href = '/login';
+            } else {
+              console.error('Error al cerrar sesión');
+            }
+          })
+          .catch(error => console.error('Error:', error));
+        });
+      }
+      
+      // Verifica si el botón de login existe y añade el listener
+      const loginButton = document.getElementById('loginButton');
+      if (loginButton) {
+        loginButton.addEventListener('click', function() {
           window.location.href = '/login';
-        } else {
-          console.error('Error al cerrar sesión');
-        }
-      })
-      .catch(error => console.error('Error:', error));
+        });
+      }
+
     });
   </script>
 </body>

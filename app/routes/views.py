@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, url_for, redirect, jsonify
 from flask_jwt_extended import verify_jwt_in_request, jwt_required, get_jwt_identity
 from ..api.productos import get_products
+from ..api.autenticacion import get_users
+from ..db import db
+from ..db import Usuario
 
 main = Blueprint('main', __name__)
 
@@ -26,7 +29,30 @@ def home():
     
     # Renderizar siempre la página principal
     print("Renderizando página principal")
-    return render_template('home.html')
+
+    #usuarios = get_users()
+    #print(usuarios)
+    # Buscar el usuario actual por ID
+    usuario_actual = None
+    
+    users_list = [
+    Usuario(1, 'Juan Pérez', 'juan.perez@example.com', 'pass123', '2025-04-30T12:34:56'),
+    Usuario(2, 'Ana López', 'ana.lopez@example.com', 'asv134', '2025-04-30T13:45:12')
+    ]
+
+    if user_identity:
+        try:
+            user_id = int(user_identity)
+            for usuario in users_list:
+                if usuario.id == user_id:
+                    usuario_actual = usuario
+            print(f"Usuario encontrado: {usuario_actual}")
+        except ValueError:
+            print("Error: El ID de usuario no es un número válido.")
+    
+    # Renderizar la página principal con el usuario actual si existe
+    print("Renderizando página principal")
+    return render_template('home.html', usuario=usuario_actual)
 
 """
 Ruta con la vista para iniciar sesión en la aplicación
