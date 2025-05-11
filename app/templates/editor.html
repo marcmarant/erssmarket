@@ -15,14 +15,14 @@
             <div class="parte-superior">
                 <button type="button" id="cambiar">Cambiar producto</button>
             </div>
-            <div class="nombre">
+            <div class="contenedor1">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre">
             </div>
             <div class="parte-media">
                 <div class="pm1">
                     <label for="descripcion">Descripción:</label>
-                    <textarea id="descripcion" name="descripcion" rows="5" cols="10" placeholder="Escribe aquí..."></textarea>
+                    <textarea id="descripcion" name="descripcion" placeholder="Escribe aquí..."></textarea>
 
                 </div>
                 <div class="pm2">
@@ -32,7 +32,7 @@
                 </div>
                 
             </div>
-            <div class="stack">
+            <div class="contenedor1">
                 <label for="precio">Precio:</label>
                 <input type="number" id="precio" name="precio" min="0" step="1.00" placeholder="0.00">
                 <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stack (Unidades):</p>
@@ -44,13 +44,10 @@
                 <button type="button" id="guardar">Guardar cambios</button>
             </div>
             
-
         </div>
     </div>
 
-  
-
-    
+ 
     
 </div>    
 {% endblock %}

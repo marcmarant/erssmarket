@@ -1,3 +1,4 @@
+
 .main-container {
   display: flex;
   flex-wrap: wrap;
@@ -45,6 +46,10 @@
 
 .trapecio.left{
   background-image: url('../images/carrito.jpg');
+}
+
+.trapecio.left.four-image{
+  background-image: url('../images/configuracion.jpeg');
 }
 
 .trapecio-reverse.right{
