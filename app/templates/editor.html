@@ -1,0 +1,59 @@
+
+{% extends "base/base.html" %}
+
+{% block title %}Selector de productos{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/editor.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    
+    <div class="caja-producto">
+        <div class="producto">
+            <div class="parte-superior">
+                <button type="button" id="cambiar">Cambiar producto</button>
+            </div>
+            <div class="nombre">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre">
+            </div>
+            <div class="parte-media">
+                <div class="pm1">
+                    <label for="descripcion">Descripción:</label>
+                    <textarea id="descripcion" name="descripcion" rows="5" cols="10" placeholder="Escribe aquí..."></textarea>
+
+                </div>
+                <div class="pm2">
+                    <div class="foto"><img src="../static/images/balon.jpg" alt="Imagen del producto" width="150" height="150">
+                    </div>
+                    <div class="anyadir-foto"><button type="button" id="anyadir">Añadir foto</button></div>
+                </div>
+                
+            </div>
+            <div class="stack">
+                <label for="precio">Precio:</label>
+                <input type="number" id="precio" name="precio" min="0" step="1.00" placeholder="0.00">
+                <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Stack (Unidades):</p>
+                <input type="number" id="unidades" name="undiades" min="0" step="1">
+            </div>
+        
+            <div class="parte-superior">
+                <button type="button" id="cancelar">Cancelar cambios</button>
+                <button type="button" id="guardar">Guardar cambios</button>
+            </div>
+            
+
+        </div>
+    </div>
+
+  
+
+    
+    
+</div>    
+{% endblock %}
+
+
+

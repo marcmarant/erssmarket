@@ -87,3 +87,7 @@ def selector():
 
     productos = get_products_query() # Cargamos los porductos que se encuentran en la tienda, estos los debe de coger de la bd
     return render_template('selector.html', productos=productos, usuario=usuario_actual)
+
+@main.route('/editor')
+def editor():
+    return render_template('editor.html')
