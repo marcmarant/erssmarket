@@ -125,7 +125,7 @@ header nav {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1.5rem;
+  gap: 2rem;
 }
 header button {
   display: flex;
@@ -142,3 +142,26 @@ header button i {
   font-size: 1.2em;
 }
 
+/* Contador para el carrito */
+.fa-shopping-cart {
+  position: relative;
+  z-index: 100;
+  text-shadow: #3498db 2px -1px 0;
+}
+#product-counter {
+  position: absolute;
+  left: 25px;
+  top: -8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #e14343;
+  color: white;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 900;
+  transition: background-color 0.2s ease;
+}
+.fa-shopping-cart:hover #product-counter {
+  background-color: var(--color-secondary);
+}
