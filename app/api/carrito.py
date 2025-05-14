@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify, request
+from flask_jwt_extended import get_jwt_identity, jwt_required
 from ..db import db
 from ..db import Producto
 
@@ -6,14 +7,17 @@ carrito = Blueprint('carrito', __name__)
 
 
 @carrito.route('/agregar', methods=['POST'])
+@jwt_required()
 def agregar_al_carrito():
 
-  printf("Entro a agregar producto en el carrito")
+  print("Entro a agregar producto en el carrito")
   try:
     data = request.get_json()
-    usuario_id = data.get('usuario_id')
+    usuario_id = get_jwt_identity()
     producto_id = data.get('id')
     cantidad = int (data.get('cantidad'))
+
+    
 
     if (cantidad <= 0):
       return jsonify({'error': 'cantidad incorrecta'})
