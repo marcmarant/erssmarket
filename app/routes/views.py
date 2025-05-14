@@ -1,11 +1,14 @@
-from flask import Blueprint, render_template, url_for, redirect
-from flask_jwt_extended import jwt_required, get_jwt_identity
-from ..api.productos import get_products_query
+from flask import Blueprint, render_template, url_for, redirect, jsonify
+from flask_jwt_extended import verify_jwt_in_request, jwt_required, get_jwt_identity
+from ..api.productos import get_products, get_products_query
+from ..api.autenticacion import get_users
+from ..db import db
+from ..db import Usuario
 
 main = Blueprint('main', __name__)
 
 @main.route('/')
-def home():
+def home():  
     return render_template('home.html')
 
 """
@@ -21,7 +24,14 @@ def login():
         return redirect(url_for('main.home'))
     return render_template('login.html')
 
+
+from flask import request
+
 @main.route('/selector')
 def selector():
-    products = get_products_query()
-    return render_template('selector.html', productos = products)
+    productos = get_products_query() # Cargamos los porductos que se encuentran en la tienda, estos los debe de coger de la bd
+    return render_template('selector.html', productos=productos)
+
+@main.route('/editor')
+def editor():
+    return render_template('editor.html')

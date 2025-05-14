@@ -14,10 +14,10 @@ CREATE TABLE usuario (
 CREATE TABLE producto (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(100) NOT NULL,
+  descripcion VARCHAR(255),  
   precio INT NOT NULL,
-  fotoUrl VARCHAR(255)       
+  fotoUrl VARCHAR(255)
 );
-
 
 
 -- Inserts usuarios

@@ -8,34 +8,32 @@
 {% endblock %}
 
 {% block content %}
-<div class="margen-central">
+    <div class="margen-central">
 
-    {% for producto in productos %}
-    <div class="caja-producto">
-        <div class="caja1">
-                <h1>{{ producto.nombre }}</h1>
-                <br>
-                <p> {{ producto.descripcion }} </p>
-                <br>
-            <div class="cantidad-control">
-                <button class="btn-cantidad" onclick="cambiarCantidad(-1, this)">-</button>
-                <input type="number" class="cantidad" value="0" min="0" oninput="validarCantidad(this)">
-                <button class="btn-cantidad" onclick="cambiarCantidad(1, this)">+</button>
-            </div>
-                               
-            <div class="caja5">       
-                <h3 id="precioProducto">Precio Total: 0€</h3> 
-                <button class="btn-agregar" onclick="añadirAlCarrito(this)">Añadir al carrito</button>              
-            </div>      
-        </div>                
-        <div class="caja2">
-            <div class="precio-destacado">{{producto.precio}}€</div>
-            <img src={{producto.fotoUrl}} alt={{producto.nombre}} class="imagen-producto">
-        </div>               
+        {% for producto in productos %}
+        <div class="caja-producto" data-id="{{ producto.id }}">
+            <div class="caja1">
+                    <h1>{{ producto.nombre }}</h1><br>
+                    <p> {{ producto.descripcion }} </p><br>
+                <div class="cantidad-control">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(-1, this)">-</button>
+                    <input type="number" class="cantidad" value="0" min="0" oninput="validarCantidad(this)">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(1, this)">+</button>
+                </div>
+                                
+                <div class="caja5">       
+                    <h3 id="precioProducto">Precio Total: 0€</h3> 
+                    <button class="btn-agregar" onclick="añadirAlCarrito(this)">Añadir al carrito</button>              
+                </div>      
+            </div>                
+            <div class="caja2">
+                <div class="precio-destacado">{{producto.precio}}€</div>
+                <img src={{producto.fotoUrl}} alt={{producto.nombre}} class="imagen-producto">
+            </div>               
+        </div>
+        {% endfor %}
+                
     </div>
-    {% endfor %}
-               
-</div>
 {% endblock %}
 
 {% block script %}
@@ -67,19 +65,36 @@
 
     function añadirAlCarrito(elemento) {
         const producto = elemento.closest('.caja-producto');
-        const nombreProducto = producto.querySelector('.cajaTitulo h1').textContent;
+        const productoId = producto.dataset.id;  
         const cantidad = parseInt(producto.querySelector('.cantidad').value) || 0;
 
-        // Simulación de añadir al carrito (puedes modificar para que haga una petición al backend)
         if (cantidad > 0) {
-            alert(`Producto "${nombreProducto}" añadido al carrito con cantidad: ${cantidad}`);
+            const data = {
+                id: productoId,
+                cantidad: cantidad
+            };
+
+            fetch('/api/carrito/agregar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                alert(result.message);
+            })
+            .catch(error => {
+                console.error('Error al añadir al carrito:', error);
+            });
+
+            producto.querySelector('.cantidad').value = 0;
+            producto.querySelector('#precioProducto').textContent = "Precio Total: 0€";
+        } else {
+            alert("La cantidad debe ser mayor a 0.");
         }
-
-        // Reiniciar cantidad y precio total
-        producto.querySelector('.cantidad').value = 0;
-        producto.querySelector('#precioProducto').textContent = "Precio Total: 0€";
     }
-
 </script>
 
 {% endblock %}

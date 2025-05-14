@@ -1,19 +1,92 @@
-/* Estilo para el contenedor principal */
-.container {
-  width: 80%;
-  margin: 0 auto;
+
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; 
+  justify-content: center; 
   padding: 20px;
 }
 
-/* Estilo para el menú */
-ul {
-  list-style-type: none;
+.item-container {
+  width: 45%;
+  height: 450px;
+  background-color: #34db85;
+  color: white;
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin-top: 20px;
+  margin: 10px;
+  border-radius: 10px;
+  font-size: 1.2em;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  transform-origin: center; 
+  border-radius: 10px; 
 }
 
-li {
-  margin: 0 15px;
+.item-container:hover {
+  transform: scale(1.05); 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); 
+}
+
+.trapecio, .trapecio-reverse {
+  width: 50%;
+  height: 100%; 
+  position: relative; 
+}
+
+.trapecio {
+  border-radius: 10px 0 0 10px;
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%)
+}
+
+.trapecio-reverse {
+  border-radius: 0 10px 10px 0;
+  clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+.trapecio.left{
+  background-image: url('../images/carrito.jpg');
+}
+
+.trapecio.left.four-image{
+  background-image: url('../images/configuracion.jpeg');
+}
+
+.trapecio-reverse.right{
+  background-image: url('../images/tienda.jpg');
+}
+
+.trapecio.left, .trapecio-reverse.right{
+  background-size: cover;
+  background-position: center;
+}
+
+.trapecio-reverse.right.third-image{
+  background-image: url('../images/pedido.jpg');
+}
+
+.trapecio.right, .trapecio-reverse.left {
+  background-color: #3498db;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  color: white;
+  font-size: 1.5em;
+  font-weight: bold;
+  position: relative; 
+}
+
+.trapecio.right{
+  border-radius: 0 10px 10px 0;
+  clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+  padding-left: 5%;
+}
+
+.trapecio-reverse.left{
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+  padding-right: 5%;
+  border-radius: 10px 0 0 10px;
 }
 
