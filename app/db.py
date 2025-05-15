@@ -17,17 +17,19 @@ class Usuario(db.Model):
     email = db.Column(db.String(100), unique=True, nullable=False)
     contrasenya = db.Column(db.String(255), nullable=False)
     fecha_creacion = db.Column(db.DateTime)
+    is_admin = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return f'<Usuario {self.nombre}>'
 
     # Todo: Borrar a futuro
-    def __init__(self, id, nombre, email, contrasenya, fecha_creacion):
+    def __init__(self, id, nombre, email, contrasenya, fecha_creacion, is_admin=False):
         self.id = id
         self.nombre = nombre
         self.contrasenya = contrasenya
         self.email = email
         self.fecha_creacion = fecha_creacion
+        self.is_admin = is_admin
 
 # Tabla producto en la base de datos
 class Producto(db.Model):
