@@ -40,17 +40,19 @@ class Producto(db.Model):
     descripcion = db.Column(db.String(255), nullable=False)  
     precio = db.Column(db.Integer, nullable=False)
     fotoUrl = db.Column(db.String(255))
+    stock = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
         return f'<Producto {self.nombre}>'
 
     # Todo: Borrar a futuro
-    def __init__(self, id, nombre, descripcion, precio, fotoUrl):
+    def __init__(self, id, nombre, descripcion, precio, fotoUrl, stock):
         self.id = id
         self.nombre = nombre
         self.descripcion = descripcion  
         self.precio = precio
         self.fotoUrl = fotoUrl
+        self.stock = stock
 
 # Tabla carrito en la base de datos
 class Carrito(db.Model):

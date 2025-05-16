@@ -34,4 +34,5 @@ def selector():
 
 @main.route('/editor')
 def editor():
-    return render_template('editor.html')
+    productos = get_products_query()
+    return render_template('editor.html', productos=productos)
