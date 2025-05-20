@@ -17,7 +17,8 @@ CREATE TABLE producto (
   nombre VARCHAR(100) NOT NULL,
   descripcion VARCHAR(255),  
   precio INT NOT NULL,
-  fotoUrl VARCHAR(255)
+  fotoUrl VARCHAR(255),
+  stock INT NOT NULL
 );
 
 
