@@ -33,5 +33,5 @@ VALUES ('Ana López', 'ana.lopez@example.com', 'securepassword');
 INSERT INTO producto (nombre, precio) 
 VALUES ('Producto 1', 450,1);
 
-INSERT INTO producto (nombre, precio) 
+INSERT INTO producto (nombre, descripcion, precio, fotoUrl,stock) 
 VALUES ('Balón de fútbol', 'Balón de fútbol clásico, perfecto para entrenamientos y partidos. Fabricado con materiales resistentes y cosido a máquina para mayor durabilidad. Su superficie de cuero sintético garantiza un toque suave y un control óptimo. Ideal para jugadores de todas las edades y niveles.', 25, '../static/images/balon.jpg', 1);
