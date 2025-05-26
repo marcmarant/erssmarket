@@ -74,9 +74,7 @@
     gap: 5px;
 }
 
-.pm1{
-    padding-top: 5%;
-}
+
 
 .pm1 textarea {
     width: 100%;           
@@ -145,4 +143,37 @@ input {
 #cancelar{
     background-color: red;
 }
+
+.oculto {
+    display: none;
+}
+
+input[name="nombre"] {
+    width: 200px;
+    font-size: 18px;
+}
+
+.texto-plano{
+    font-size: 20px;
+}
+
+#texto-plano2{
+    font-size: 13px;
+    font-weight: normal;
+}
+
+#texto-plano3, #descripcion{
+    font-size: 16px;
+    font-weight: normal;
+}
+
+#label-nombre{
+    font-size: 18px;
+}
+
+label[for="descripcion"], label[for="precio"], label[for="unidades"]{
+  font-size: 16px;
+}
+
+
 

@@ -38,4 +38,45 @@ def get_products():
     print(f"Error al obtener los productos: {e}")
     return jsonify({"error": "Error al obtener los productos"}), 500
 
-#  /api/productos/{id}
+@productos.route('/productos/<int:id>', methods=['PUT'])
+def update_product(id):
+    """
+    data = request.get_json()
+
+    producto = Producto.query.get_or_404(id)
+
+    if 'nombre' in data:
+        producto.nombre = data['nombre']
+    if 'descripcion' in data:
+        producto.descripcion = data['descripcion']
+    if 'precio' in data:
+        producto.precio = data['precio']
+    if 'stock' in data:
+        producto.stock = data['stock']
+
+    db.session.commit()
+
+    return jsonify({"message": "Producto actualizado correctamente"}), 200
+    """
+    return jsonify({"message": "simulación de actualización"}), 200
+
+@productos.route('/productos/<int:id>', methods=['PATCH'])
+def update_product_detail(id):
+    """
+    data = request.get_json()
+    producto = Producto.query.get_or_404(id)
+
+    if 'nombre' in data:
+        producto.nombre = data['nombre']
+    if 'descripcion' in data:
+        producto.descripcion = data['descripcion']
+    if 'precio' in data:
+        producto.precio = data['precio']
+    if 'stock' in data:
+        producto.stock = data['stock']
+
+    db.session.commit()
+    """
+    return jsonify({"message": "simulación de actualización"}), 200
+
+  
