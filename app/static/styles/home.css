@@ -20,7 +20,8 @@
   font-size: 1.2em;
   transition: transform 0.3s ease, box-shadow 0.3s ease; 
   transform-origin: center; 
-  border-radius: 10px; 
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .item-container:hover {
