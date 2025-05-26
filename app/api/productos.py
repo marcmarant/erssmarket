@@ -38,31 +38,38 @@ def get_products():
     print(f"Error al obtener los productos: {e}")
     return jsonify({"error": "Error al obtener los productos"}), 500
 
+
 @productos.route('/productos/<int:id>', methods=['PUT'])
 def update_product(id):
-    """
-    data = request.get_json()
+    try:
+        data = request.get_json()
 
-    producto = Producto.query.get_or_404(id)
+        products_list = get_products_query()
+        producto = next((p for p in products_list if p["id"] == id), None)
 
-    if 'nombre' in data:
-        producto.nombre = data['nombre']
-    if 'descripcion' in data:
-        producto.descripcion = data['descripcion']
-    if 'precio' in data:
-        producto.precio = data['precio']
-    if 'stock' in data:
-        producto.stock = data['stock']
+        if producto is None:
+            return jsonify({"error": "Producto no encontrado"}), 404
 
-    db.session.commit()
+        if 'nombre' in data:
+            producto["nombre"] = data['nombre']
+        if 'descripcion' in data:
+            producto["descripcion"] = data['descripcion']
+        if 'precio' in data:
+            producto["precio"] = data['precio']
+        if 'stock' in data:
+            producto["stock"] = data['stock']
 
-    return jsonify({"message": "Producto actualizado correctamente"}), 200
-    """
-    return jsonify({"message": "simulación de actualización"}), 200
+        print("Datos del producto actualizados:")
+        print(f'{producto["nombre"]}, {producto["descripcion"]}, {producto["precio"]}, {producto["stock"]}')
+        return jsonify({"message": "Producto actualizado correctamente"}), 200
+
+    except Exception as e:
+        print(f"Error al actualizar el producto: {e}")
+        return jsonify({"error": "Error al actualizar el producto"}), 500
+
 
 @productos.route('/productos/<int:id>', methods=['PATCH'])
 def update_product_detail(id):
-    """
     data = request.get_json()
     producto = Producto.query.get_or_404(id)
 
@@ -76,7 +83,5 @@ def update_product_detail(id):
         producto.stock = data['stock']
 
     db.session.commit()
-    """
-    return jsonify({"message": "simulación de actualización"}), 200
 
-  
+    return jsonify({"message": "Producto actualizado parcialmente"}), 200
