@@ -40,9 +40,7 @@ def get_products():
 
 @productos.route('/productos/<int:id>', methods=['PUT'])
 def update_product(id):
-    """
     data = request.get_json()
-
     producto = Producto.query.get_or_404(id)
 
     if 'nombre' in data:
@@ -57,12 +55,10 @@ def update_product(id):
     db.session.commit()
 
     return jsonify({"message": "Producto actualizado correctamente"}), 200
-    """
-    return jsonify({"message": "simulación de actualización"}), 200
+
 
 @productos.route('/productos/<int:id>', methods=['PATCH'])
 def update_product_detail(id):
-    """
     data = request.get_json()
     producto = Producto.query.get_or_404(id)
 
@@ -76,7 +72,5 @@ def update_product_detail(id):
         producto.stock = data['stock']
 
     db.session.commit()
-    """
-    return jsonify({"message": "simulación de actualización"}), 200
 
-  
+    return jsonify({"message": "Producto actualizado parcialmente"}), 200
