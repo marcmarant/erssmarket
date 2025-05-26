@@ -26,10 +26,10 @@
         <i class="fas fa-list"></i>
       </a>
 
-      {% if usuario %} <!-- En funcion de si el usuairo se identifico se mostrara un boton u otro.-->
+      {% if current_user %} <!-- En funcion de si el usuairo se identifico se mostrara un boton u otro.-->
         <button id="logoutButton">Log Out <i class="fas fa-sign-out-alt"></i></button>
       {% else %}
-        <button id="loginButton">Login <i class="fas fa-sign-in-alt"></i></button>
+        <button id="loginButton">Login</button>
       {% endif %}
     </nav>
   </header>

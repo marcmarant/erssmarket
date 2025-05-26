@@ -10,6 +10,10 @@ users = [
   Usuario(2, 'Ana López', 'ana.lopez@example.com', 'asv134', '2025-04-30T13:45:12')
 ]
 
+def get_user_by_id(id):
+  #user = Usuario.query.get(user_id)
+  user = next((u for u in users if u.id == int(id)), None)  # Simulando la consulta a la base de datos
+  return user
 
 def get_users_query():
 
