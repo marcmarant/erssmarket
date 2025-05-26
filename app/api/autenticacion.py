@@ -6,7 +6,7 @@ from ..db import Usuario
 autenticacion = Blueprint('autenticacion', __name__)
 # TODO : Borrar a futuro usuarios de prueba a falta de DB
 users = [
-  Usuario(1, 'Juan Pérez', 'juan.perez@example.com', 'pass123', '2025-04-30T12:34:56'),
+  Usuario(1, 'Juan Pérez', 'juan.perez@example.com', 'pass123', '2025-04-30T12:34:56', True),
   Usuario(2, 'Ana López', 'ana.lopez@example.com', 'asv134', '2025-04-30T13:45:12')
 ]
 
@@ -18,7 +18,7 @@ def get_user_by_id(id):
 def get_users_query():
 
   users = [
-    Usuario(1, 'Juan Pérez', 'juan.perez@example.com', 'pass123', '2025-04-30T12:34:56'),
+    Usuario(1, 'Juan Pérez', 'juan.perez@example.com', 'pass123', '2025-04-30T12:34:56', True),
     Usuario(2, 'Ana López', 'ana.lopez@example.com', 'asv134', '2025-04-30T13:45:12')
   ]
   users_list = []

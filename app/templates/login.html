@@ -1,23 +1,28 @@
 {% extends "base/auth.html" %}
 
-{% block title %}Inicio - ErssMarket{% endblock %}
+{% block title %}Login - ErssMarket{% endblock %}
+
+{% block h1 %}Inicia Sesión{% endblock %}
 
 {% block inputs %}
   <div class="input-container">
-    <label for="username">Email:</label>
+    <label for="email">Email:</label>
     <input type="text" id="email" name="email" required>
   </div>
   <div class="input-container">
-    <label for="username">Contraseña:</label>
-    <input type="text" id="password" name="password" required>
+    <label for="password">Contraseña:</label>
+    <input type="password" id="password" name="password" required>
+    <i class="fa-solid fa-eye" id="togglePassword"></i>
   </div>
 {% endblock %}
 
 {% block submit_text %}Login{% endblock %}
 
+{% block link %}¿No tienes cuenta?&nbsp;<a href="/register"> Registro</a>{% endblock %}
+
 {% block script %}
   <script>
-    document.getElementById('authForm').addEventListener('submit', function(event) {
+    document.getElementById('authForm').addEventListener('submit', function() {
       event.preventDefault(); // Evita el envío del formulario por defecto
 
       const email = document.getElementById('email').value;
@@ -35,6 +40,7 @@
       })
       .then(response => {
         if (!response.ok) {
+          alert('Usuario o contraseña incorrectos.');
           throw new Error('Error en el inicio de sesión. Inténtalo de nuevo.');
         }
         return response.json()
@@ -43,7 +49,13 @@
         window.location.href = '/';
       })
       .catch(error => console.error('Error:', error));
+    });
 
+    document.getElementById('togglePassword').addEventListener('click', function() {
+      const passwordInput = document.getElementById('password');
+      const isTypePassword = passwordInput.getAttribute('type') === 'password';
+      passwordInput.setAttribute('type', isTypePassword ? 'text' : 'password');
+      this.classList.toggle('fa-eye-slash');
     });
   </script>
 {% endblock %}

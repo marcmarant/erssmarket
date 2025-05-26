@@ -40,6 +40,18 @@ def login():
         return redirect(url_for('main.home'))
     return render_template('login.html')
 
+"""
+Ruta con la vista para registrar un nuevo usuario.
+Si el usuario ya está loggeado se le redirige a home.
+"""
+@main.route('/register')
+@jwt_required(optional=True)
+def register():
+    current_user = get_jwt_identity()
+    if current_user:
+        return redirect(url_for('main.home'))
+    return render_template('register.html')
+
 @main.route('/selector')
 def selector():
     productos = get_products_query() # Cargamos los porductos que se encuentran en la tienda, estos los debe de coger de la bd

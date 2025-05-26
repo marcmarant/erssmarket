@@ -1,0 +1,96 @@
+{% extends "base/auth.html" %}
+
+{% block title %}Registro - ErssMarket{% endblock %}
+
+{% block style %}<style>
+  form {
+    flex-direction: row;
+    gap: 10px;
+  }
+</style>{% endblock %}
+
+{% block h1 %}Registrate{% endblock %}
+
+{% block inputs %}
+  <div>
+    <div class="input-container">
+      <label for="name">Nombre:</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div class="input-container">
+      <label for="password">Contraseña:</label>
+      <input type="password" id="password" name="password" required>
+      <i class="fa-solid fa-eye" id="togglePassword"></i>
+    </div>
+  </div>
+  <div>
+    <div class="input-container">
+      <label for="email">Email:</label>
+      <input type="text" id="email" name="email" required>
+    </div>
+    <div class="input-container">
+      <label for="passwordCheck">Repetir Contraseña:</label>
+      <input type="password" id="passwordCheck" name="passwordCheck" required>
+      <i class="fa-solid fa-eye" id="togglePasswordCheck"></i>
+    </div>
+  </div>
+{% endblock %}
+
+{% block submit_text %}Registrate{% endblock %}
+
+{% block link %}¿Ya estas registrado?&nbsp;<a href="/login">Login</a>{% endblock %}
+
+{% block script %}
+  <script>
+    document.getElementById('authForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Evita el envío del formulario por defecto
+
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const passwordCheck = document.getElementById('passwordCheck').value;
+
+      // Si las contraseñas no coinciden se muestra un mensaje de error y se detiene el proceso
+      if (password !== passwordCheck) {
+        alert('Las contraseñas no coinciden. Por favor, inténtalo de nuevo.');
+        throw new Error('Error en el registro. Las contraseñas no coinciden.');
+      }
+
+      /*
+       * Llamada al endpoint api/register para registrar al usuario
+       * Si la autenticacion es exitosa se guarda el token de sesion en sessionStorage
+       * y se redirige al usuario a la página home
+       */
+      fetch('api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password })
+      })
+      .then(response => {
+        if (!response.ok) {
+          alert('Usuario o contraseña invalidos.');
+          throw new Error('Error en el registro. Inténtalo de nuevo.');
+        }
+        return response.json()
+      })
+      .then(data => {
+        window.location.href = '/';
+      })
+      .catch(error => console.error('Error:', error));
+    });
+
+    document.getElementById('togglePassword').addEventListener('click', function() {
+      const passwordInput = document.getElementById('password');
+      const isTypePassword = passwordInput.getAttribute('type') === 'password';
+      passwordInput.setAttribute('type', isTypePassword ? 'text' : 'password');
+      this.classList.toggle('fa-eye-slash');
+    });
+
+    document.getElementById('togglePasswordCheck').addEventListener('click', function() {
+      const passwordCheckInput = document.getElementById('passwordCheck');
+      const isTypePassword = passwordCheckInput.getAttribute('type') === 'password';
+      passwordCheckInput.setAttribute('type', isTypePassword ? 'text' : 'password');
+      this.classList.toggle('fa-eye-slash');
+    });
+  </script>
+{% endblock %}
