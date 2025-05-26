@@ -38,23 +38,34 @@ def get_products():
     print(f"Error al obtener los productos: {e}")
     return jsonify({"error": "Error al obtener los productos"}), 500
 
+
 @productos.route('/productos/<int:id>', methods=['PUT'])
 def update_product(id):
-    data = request.get_json()
-    producto = Producto.query.get_or_404(id)
+    try:
+        data = request.get_json()
 
-    if 'nombre' in data:
-        producto.nombre = data['nombre']
-    if 'descripcion' in data:
-        producto.descripcion = data['descripcion']
-    if 'precio' in data:
-        producto.precio = data['precio']
-    if 'stock' in data:
-        producto.stock = data['stock']
+        products_list = get_products_query()
+        producto = next((p for p in products_list if p["id"] == id), None)
 
-    db.session.commit()
+        if producto is None:
+            return jsonify({"error": "Producto no encontrado"}), 404
 
-    return jsonify({"message": "Producto actualizado correctamente"}), 200
+        if 'nombre' in data:
+            producto["nombre"] = data['nombre']
+        if 'descripcion' in data:
+            producto["descripcion"] = data['descripcion']
+        if 'precio' in data:
+            producto["precio"] = data['precio']
+        if 'stock' in data:
+            producto["stock"] = data['stock']
+
+        print("Datos del producto actualizados:")
+        print(f'{producto["nombre"]}, {producto["descripcion"]}, {producto["precio"]}, {producto["stock"]}')
+        return jsonify({"message": "Producto actualizado correctamente"}), 200
+
+    except Exception as e:
+        print(f"Error al actualizar el producto: {e}")
+        return jsonify({"error": "Error al actualizar el producto"}), 500
 
 
 @productos.route('/productos/<int:id>', methods=['PATCH'])
