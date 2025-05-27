@@ -19,7 +19,7 @@ def register():
     if Usuario.query.filter_by(email=email).first():
         return jsonify({'error': 'El email ya está registrado'}), 400
 
-    nuevo_usuario = Usuario(email=email, contrasenya=password, nombre=nombre)
+    nuevo_usuario = Usuario(email=email, contrasenya=password, nombre=nombre) # Los usuarios que se registran no se añaden como administradores
     db.session.add(nuevo_usuario)
     db.session.flush()  # Para obtener el id del usuario que se acaba de crear
     db.session.commit()
