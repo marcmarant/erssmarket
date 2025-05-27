@@ -56,20 +56,16 @@ class Producto(db.Model):
 class Carrito(db.Model):
     __tablename__ = 'carrito'
 
-    id = db.Column(db.Integer, primary_key=True)
-    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
-    producto_id = db.Column(db.Integer, db.ForeignKey('producto.id'), nullable=False)
+    usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), primary_key=True)
+    producto_id = db.Column(db.Integer, db.ForeignKey('producto.id'), primary_key=True)
     cantidad = db.Column(db.Integer, nullable=False)
 
-    def __repr__(self):
-        return f'<Carrito Usuario: {self.usuario_id} Producto: {self.producto_id} Cantidad: {self.cantidad}>'
-
-    # Todo: Borrar a futuro
-    def __init__(self, id, usuario_id, producto_id, cantidad):
-        self.id = id
-        self.usuario_id = usuario_id
-        self.producto_id = producto_id
-        self.cantidad = cantidad
+    def to_dict(self):
+        return {
+            'usuario_id': self.usuario_id,
+            'producto_id': self.producto_id,
+            'cantidad': self.cantidad
+        }
 
 # Tabla pedido en la base de datos
 class Pedido(db.Model):

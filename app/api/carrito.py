@@ -12,8 +12,17 @@ Ruta que devuelve los productos que tiene el carrito actualmente.
 def get_carrito():
     try:
         user_id = get_jwt_identity()
-        productos = db.session.query(Producto, Carrito.cantidad).join(Carrito, Producto.id == Carrito.producto_id).filter(Carrito.usuario_id == user_id).all()
-        return jsonify(productos), 200
+        productos_cantidad = db.session.query(Producto, Carrito.cantidad).join(
+            Carrito, Producto.id == Carrito.producto_id
+        ).filter(Carrito.usuario_id == user_id).all()
+        productos_carrito = [
+            {
+                **producto.to_dict(),
+                'cantidad': cantidad
+            }
+            for producto, cantidad in productos_cantidad
+        ]
+        return jsonify(productos_carrito), 200
     except Exception:
         return jsonify({"error": "Error al intentar obtener los datos del carrrito"}), 500
 
