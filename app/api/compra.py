@@ -20,7 +20,7 @@ def do_compra():
         precios = []
         for item in carrito:
             producto = Producto.query.filter_by(id=item.producto_id).first()
-            precios.append(producto.id, producto.precio, item.cantidad)
+            precios.append((producto.id, producto.precio, item.cantidad))
 
         # Simulación del proceso de pago (espera de 3 segundos)
         time.sleep(3)

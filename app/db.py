@@ -12,7 +12,7 @@ def init_db(app):
 class Usuario(db.Model):
     __tablename__ = 'usuario'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nombre = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     contrasenya = db.Column(db.String(255), nullable=False)
@@ -87,7 +87,7 @@ class Carrito(db.Model):
 class Pedido(db.Model):
     __tablename__ = 'pedido'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     usuario_id = db.Column(db.Integer, db.ForeignKey('usuario.id'), nullable=False)
     fecha_creacion = db.Column(db.DateTime, nullable=False)
     precio_total = db.Column(db.Integer, nullable=False)
