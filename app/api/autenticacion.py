@@ -20,7 +20,7 @@ def register():
     data = request.json
     email = data.get('email')
     password = data.get('password')
-    nombre = data.get('nombre')
+    nombre = data.get('name')
     if not email or not password or not nombre:
         return jsonify({'error': 'Los campos email, contraseña y nombre son necesarios'}), 400
     if Usuario.query.filter_by(email=email).first():

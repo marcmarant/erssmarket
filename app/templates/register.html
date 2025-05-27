@@ -68,7 +68,7 @@
       })
       .then(response => {
         if (!response.ok) {
-          alert('Usuario o contraseña invalidos.');
+          alert('Email o contraseña invalidos.');
           throw new Error('Error en el registro. Inténtalo de nuevo.');
         }
         return response.json()
