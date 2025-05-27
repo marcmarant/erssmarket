@@ -6,6 +6,13 @@ from ..db import Usuario
 autenticacion = Blueprint('autenticacion', __name__)
 
 """
+Función auxiliar para obtener un usuario por su ID.
+"""
+def get_user_by_id(id):
+    user = Usuario.query.filter_by(id=id).first()
+    return user.to_dict() if user else None
+
+"""
 Ruta para registrar un usuario, una vez registrado se devuelve el token JWT.
 """
 @autenticacion.route('/register', methods=['POST'])

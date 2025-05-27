@@ -10,7 +10,7 @@ Ruta para realizar una compra de los productos que el usuario tenga en el carrit
 """
 @compra.route('/', methods=['POST'])
 @jwt_required()
-def compra():
+def do_compra():
     try:
         user_id = get_jwt_identity()
         carrito = Carrito.query.filter_by(usuario_id=user_id).all()

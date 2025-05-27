@@ -12,13 +12,15 @@ def get_pedido_details(pedido):
         Producto_pedido, Producto.id == Producto_pedido.producto_id
     ).filter(Producto_pedido.pedido_id == pedido.id).all()
     pedido_info = pedido.to_dict()
-    pedido_info['productos'] = {
-        'nombre': nombre,
-        'cantidad': cantidad,
-        'precio': precio,
-        'fotoUrl': fotoUrl
-    }
-    for nombre, cantidad, precio, fotoUrl in productos_pedido
+    pedido_info['productos'] = [
+        {
+            'nombre': nombre,
+            'cantidad': cantidad,
+            'precio': precio,
+            'fotoUrl': fotoUrl
+        }
+        for nombre, cantidad, precio, fotoUrl in productos_pedido
+    ]
     return pedido_info
 
 """
