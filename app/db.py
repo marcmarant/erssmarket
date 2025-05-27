@@ -19,17 +19,21 @@ class Usuario(db.Model):
     fecha_creacion = db.Column(db.DateTime)
     is_admin = db.Column(db.Boolean, default=False)
 
-    def __repr__(self):
-        return f'<Usuario {self.nombre}>'
-
-    # Todo: Borrar a futuro
-    def __init__(self, id, nombre, email, contrasenya, fecha_creacion, is_admin=False):
-        self.id = id
+    def __init__(self, nombre, email, contrasenya, is_admin=False):
         self.nombre = nombre
         self.contrasenya = contrasenya
         self.email = email
-        self.fecha_creacion = fecha_creacion
         self.is_admin = is_admin
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'nombre': self.nombre,
+            'email': self.email,
+            'contrasenya': self.contrasenya,
+            'fecha_creacion': self.fecha_creacion,
+            'is_admin': self.is_admin
+        }
 
 # Tabla producto en la base de datos
 class Producto(db.Model):
@@ -123,8 +127,3 @@ class Producto_pedido(db.Model):
             'precio': self.precio,
             'cantidad': self.cantidad
         }
-
-
-
-
-

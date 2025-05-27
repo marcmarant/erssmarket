@@ -73,7 +73,6 @@ def editor():
             return render_template('editor.html', productos=productos)
     return redirect(url_for('main.login'))
     
-
 """
 Ruta con la vista en la que se muestra el listado de pedidos
 realizados por el usuario y sus detalles.
@@ -86,3 +85,4 @@ def pedidos():
         return redirect(url_for('main.login'))
     pedidos = get_pedidos_by_user(user_id)
     return render_template('pedidos.html', pedidos=pedidos)
+    
