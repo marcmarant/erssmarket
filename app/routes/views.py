@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, url_for, redirect, jsonify
 from flask_jwt_extended import verify_jwt_in_request, jwt_required, get_jwt_identity
 from ..api.productos import get_products, get_products_query
+from ..api.pedidos import get_pedidos_by_user
 from ..api.autenticacion import get_users, get_user_by_id
 from ..db import db
 from ..db import Usuario
@@ -83,6 +84,5 @@ def pedidos():
     user_id = get_jwt_identity()
     if not user_id:
         return redirect(url_for('main.login'))
-    # Llamar a la API de los pedidos
-    # Borrar lo anterior y pillarlo con una funcion
+    pedidos = get_pedidos_by_user(user_id)
     return render_template('pedidos.html', pedidos=pedidos)
