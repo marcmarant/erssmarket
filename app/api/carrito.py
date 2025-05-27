@@ -36,13 +36,16 @@ def agregar_al_carrito():
         user_id = get_jwt_identity()
         data = request.get_json()
         producto_id = data.get('producto_id')
+        cantidad = data.get('cantidad', 1) # si no se pasa cantidad, se asume 1
+        if not producto_id or cantidad <= 0:
+            return jsonify({"error": "Peticion invalida"}), 400
 
         producto_en_carrito = Carrito.query.filter_by(usuario_id=user_id, producto_id=producto_id).first()
 
         if producto_en_carrito:
-            producto_en_carrito.cantidad += 1
+            producto_en_carrito.cantidad += cantidad
         else:
-            nuevo_producto = Carrito(usuario_id=user_id, producto_id=producto_id, cantidad=1)
+            nuevo_producto = Carrito(usuario_id=user_id, producto_id=producto_id, cantidad=cantidad)
             db.session.add(nuevo_producto)
         db.session.commit()
         return jsonify({"message": "Producto agregado al carrito"}), 200
