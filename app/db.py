@@ -94,8 +94,8 @@ class Pedido(db.Model):
 class Producto_pedido(db.Model):
     __tablename__ = 'producto_pedido'
 
-    pedido_id = db.Column(db.Integer, db.ForeignKey('pedido.id'), nullable=False)
-    producto_id = db.Column(db.Integer, db.ForeignKey('producto.id'), nullable=False)
+    pedido_id = db.Column(db.Integer, db.ForeignKey('pedido.id'), primary_key=True)
+    producto_id = db.Column(db.Integer, db.ForeignKey('producto.id'), primary_key=True)
     precio = db.Column(db.Integer, nullable=False)
     cantidad = db.Column(db.Integer, nullable=False)
 
