@@ -9,7 +9,7 @@ Función auxiliar que devuelve todos los productos disponibles.
 """
 def get_available_products_query():
     available_products = Producto.query.filter(Producto.stock > 0).all()
-    return available_products
+    return product.to_dict() for product in available_products
 
 """
 Ruta que devuelve todos los productos disponibles.
