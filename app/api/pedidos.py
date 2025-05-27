@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from app.db import db, Pedido, Carrito, Producto, Producto_pedido
+from .errors import NotFoundException
 
 pedidos = Blueprint('pedidos', __name__)
 
@@ -33,10 +34,10 @@ Función auxiliar que devuelve todos los pedidos
 """
 def get_pedidos_by_user(user_id):
     pedidos = Pedido.query.filter_by(usuario_id=user_id).all()
-        resultado = []
-        for pedido in pedidos:
-            pedido_info = get_pedido_by_id(pedido.id)
-            resultado.append(pedido_info)
+    resultado = []
+    for pedido in pedidos:
+        pedido_info = get_pedido_by_id(pedido.id)
+        resultado.append(pedido_info)
     return resultado
 
 """
