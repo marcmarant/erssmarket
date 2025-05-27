@@ -53,10 +53,27 @@ def register():
         return redirect(url_for('main.home'))
     return render_template('register.html')
 
+"""
+Ruta con los diferentes productos para que el usuario
+los pueda agregar al carrito.
+"""
 @main.route('/selector')
 def selector():
-    productos = get_available_products_query() # Cargamos los porductos que se encuentran en la tienda, estos los debe de coger de la bd
+    productos = get_available_products_query()
     return render_template('selector.html', productos=productos)
+
+"""
+Ruta con los productos agregados al carrito, de forma que el usuario
+pueda vaciarlo o efectuar la compra.
+"""
+@main.route('/carrito')
+@jwt_required(optional=True)
+def carrito():
+    user_id = get_jwt_identity()
+    if user_id:
+        carrito = get_carrito_products_query(user_id)
+        return render_template('carrito.html', carrito=carrito)
+    return redirect(url_for('main.login'))
 
 """
 Ruta con la vista para editar los productos del catalogo
