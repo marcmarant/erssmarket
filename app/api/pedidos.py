@@ -11,20 +11,14 @@ def get_pedido_details(pedido):
     productos_pedido = db.session.query(Producto.nombre, Producto_pedido.cantidad, Producto_pedido.precio, Producto.fotoUrl).join(
         Producto_pedido, Producto.id == Producto_pedido.producto_id
     ).filter(Producto_pedido.pedido_id == pedido.id).all()
-    pedido_info = {
-        'id': pedido.id,
-        'fecha_creacion': pedido.fecha_creacion,
-        'precio_total': pedido.precio_total,
-        'productos': [
-            {
-                'nombre': nombre,
-                'cantidad': cantidad,
-                'precio': precio,
-                'fotoUrl': fotoUrl
-            }
-            for nombre, cantidad, precio, fotoUrl in productos_pedido
-        ]
+    pedido_info = pedido.to_dict()
+    pedido_info['productos'] = {
+        'nombre': nombre,
+        'cantidad': cantidad,
+        'precio': precio,
+        'fotoUrl': fotoUrl
     }
+    for nombre, cantidad, precio, fotoUrl in productos_pedido
     return pedido_info
 
 """
@@ -39,7 +33,7 @@ def get_pedidos_by_user(user_id):
     return resultado
 
 """
-Ruta que devuelve los productos que tiene el carrito actualmente.
+Ruta que devuelve todos los pedidos realizados por el usuario.
 """
 @pedidos.route('/', methods=['GET'])
 @jwt_required()
@@ -52,7 +46,7 @@ def get_pedidos():
         return jsonify({"error": "Error al intentar obtener los pedidos realizados por el usuario"}), 500
 
 """
-Ruta que devuelve los detalles de un pedido en concreto
+Ruta que devuelve los detalles de un pedido en concreto.
 """
 @pedidos.route('/<int:id>', methods=['GET'])
 @jwt_required()

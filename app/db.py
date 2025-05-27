@@ -42,6 +42,13 @@ class Producto(db.Model):
     fotoUrl = db.Column(db.String(255))
     stock = db.Column(db.Integer, nullable=False)
 
+    def __init__(self, nombre, descripcion, precio, fotoUrl, stock):
+        self.nombre = nombre
+        self.descripcion = descripcion
+        self.precio = precio
+        self.fotoUrl = fotoUrl
+        self.stock = stock
+
     def to_dict(self):
         return {
             'id': self.id,
@@ -60,6 +67,11 @@ class Carrito(db.Model):
     producto_id = db.Column(db.Integer, db.ForeignKey('producto.id'), primary_key=True)
     cantidad = db.Column(db.Integer, nullable=False)
 
+    def __init__(self, usuario_id, producto_id, cantidad):
+        self.usuario_id = usuario_id
+        self.producto_id = producto_id
+        self.cantidad = cantidad
+
     def to_dict(self):
         return {
             'usuario_id': self.usuario_id,
@@ -76,12 +88,17 @@ class Pedido(db.Model):
     fecha_creacion = db.Column(db.DateTime, nullable=False)
     precio_total = db.Column(db.Integer, nullable=False)
 
-    # Todo: Borrar a futuro
-    def __init__(self, id, usuario_id, fecha_creacion, precio_total):
-        self.id = id
+    def __init__(self, usuario_id, precio_total):
         self.usuario_id = usuario_id
-        self.fecha_creacion = fecha_creacion
         self.precio_total = precio_total
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'usuario_id': self.usuario_id,
+            'fecha_creacion': self.fecha_creacion,
+            'precio_total': self.precio_total
+        }
 
 
 # Tabla producto_pedido en la base de datos
@@ -93,12 +110,20 @@ class Producto_pedido(db.Model):
     precio = db.Column(db.Integer, nullable=False)
     cantidad = db.Column(db.Integer, nullable=False)
 
-    # Todo: Borrar a futuro
     def __init__(self, pedido_id, producto_id, precio, cantidad):
         self.pedido_id = pedido_id
         self.producto_id = producto_id
         self.precio = precio
         self.cantidad = cantidad
+
+    def to_dict(self):
+        return {
+            'pedido_id': self.pedido_id,
+            'producto_id': self.producto_id,
+            'precio': self.precio,
+            'cantidad': self.cantidad
+        }
+
 
 
 
