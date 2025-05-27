@@ -9,7 +9,7 @@ Función auxiliar que devuelve todos los productos disponibles.
 """
 def get_available_products_query():
     available_products = Producto.query.filter(Producto.stock > 0).all()
-    return product.to_dict() for product in available_products
+    return [product.to_dict() for product in available_products]
 
 """
 Ruta que devuelve todos los productos disponibles.
@@ -31,7 +31,7 @@ def get_product(id):
         product = Producto.query.filter(Producto.id == id).first()
         if not product:
             return jsonify({"error": "No existe ningún producto con el id dado"}), 404
-        return jsonify(product), 200
+        return jsonify(product.to_dict()), 200
     except Exception:
         return jsonify({"error": "Error al obtener el producto"}), 500
 
@@ -47,6 +47,10 @@ def update_product(id):
             return jsonify({"error": "No existe ningún producto con el id dado"}), 404
         if 'nombre' not in data or 'descripcion' not in data or 'precio' not in data or 'stock' not in data:
             return jsonify({"error": "Peticion Invalida se necesita nombre, descripción, precio y stock"}), 400
+        if not isinstance(data['precio'], (int)):
+                return jsonify({"error": "El precio debe ser un entero en centimos"}), 400
+        if not isinstance(data['stock'], (int)):
+                return jsonify({"error": "El stock debe ser un entero"}), 400
         product.nombre = data['nombre']
         product.descripcion = data['descripcion']
         product.precio = data['precio']
@@ -73,8 +77,12 @@ def update_product_field(id):
         if 'descripcion' in data:
             product.descripcion = data['descripcion']
         if 'precio' in data:
+            if not isinstance(data['precio'], (int)):
+                return jsonify({"error": "El precio debe ser un entero en centimos"}), 400
             product.precio = data['precio']
         if 'stock' in data:
+            if not isinstance(data['stock'], (int)):
+                return jsonify({"error": "El stock debe ser un entero"}), 400
             product.stock = data['stock']
         db.session.commit()
         return jsonify({"message": "Producto actualizado correctamente"}), 200
