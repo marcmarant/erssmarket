@@ -1,8 +1,12 @@
 -- SCRIPT PARA CREAR LA BASE DE DATOS
 
-DROP TABLE IF EXISTS usuario;
+DROP TABLE IF EXISTS producto_pedido;
+DROP TABLE IF EXISTS pedido;
+DROP TABLE IF EXISTS carrito;
 DROP TABLE IF EXISTS producto;
+DROP TABLE IF EXISTS usuario;
 
+-- Tabla con la informacion de los usuarios
 CREATE TABLE usuario (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(100) NOT NULL,
@@ -12,6 +16,7 @@ CREATE TABLE usuario (
   is_admin BOOLEAN DEFAULT FALSE
 );
 
+-- Tabla con la informacion de los productos
 CREATE TABLE producto (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(100) NOT NULL,
@@ -21,6 +26,35 @@ CREATE TABLE producto (
   stock INT NOT NULL
 );
 
+-- Tabla con la información de un producto añadido al carrito de un usuario
+CREATE TABLE carrito (
+  usuario_id INT NOT NULL,
+  producto_id INT NOT NULL,
+  cantidad INT NOT NULL,
+  PRIMARY KEY (usuario_id, producto_id),
+  FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE CASCADE,
+  FOREIGN KEY (producto_id) REFERENCES producto(id) ON DELETE CASCADE 
+);
+
+-- Tabla con la información de un pedido realizado por un usuario
+CREATE TABLE pedido (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT NOT NULL,
+  fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  precio_total INT NOT NULL,
+  FOREIGN KEY (usuario_id) REFERENCES usuario(id) ON DELETE CASCADE
+);
+
+-- Tabla con la información de un producto incluido dentro de un pedido
+CREATE TABLE producto_pedido (
+  pedido_id INT NOT NULL,
+  producto_id INT NOT NULL,
+  precio INT NOT NULL, -- precio unitario en el momento del pedido
+  cantidad INT NOT NULL,
+  PRIMARY KEY (pedido_id, producto_id),
+  FOREIGN KEY (pedido_id) REFERENCES pedido(id) ON DELETE CASCADE,
+  FOREIGN KEY (producto_id) REFERENCES producto(id) ON DELETE CASCADE 
+);
 
 -- Inserts usuarios
 

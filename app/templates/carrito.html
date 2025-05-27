@@ -1,0 +1,41 @@
+<!-- templates/carrito.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carrito</title>
+</head>
+<body>
+    <h1>Carrito de Compras</h1>
+    <ul id="lista-carrito"></ul>
+    <p id="total"></p>
+
+    <button onclick="vaciarCarrito()">Vaciar Carrito</button>
+    <a href="/">Volver a productos</a>
+
+    <script>
+        async function cargarCarrito() {
+            const res = await fetch('/carrito');
+            const items = await res.json();
+            const lista = document.getElementById('lista-carrito');
+            let total = 0;
+
+            lista.innerHTML = '';
+            items.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = `${item.nombre} x ${item.cantidad} = ${item.total} €`;
+                total += item.total;
+                lista.appendChild(li);
+            });
+
+            document.getElementById('total').textContent = `Total: ${total} €`;
+        }
+
+        async function vaciarCarrito() {
+            await fetch('/carrito/vaciar', { method: 'DELETE' });
+            cargarCarrito();
+        }
+
+        cargarCarrito();
+    </script>
+</body>
+</html>

@@ -9,7 +9,7 @@ main {
 .form-container {
   position: relative;
   width: 470px;
-  height: 500px;
+  height: 450px;
   background-color: #fff;
   padding: 3rem 2rem 3rem 2rem;
   border-radius: 1.5rem;
@@ -39,6 +39,31 @@ form button {
 }
 
 .input-container {
+  position: relative;
   width: 100%;
   max-width: 280px;
+}
+
+.input-container i {
+  position: absolute;
+  bottom: 20px;
+  right: 5px;
+  display: block;
+  color: #333;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+form p {
+  position: absolute;
+  bottom: -15px;
+  left: 5px;
+}
+
+form p a {
+  position: absolute;
+  bottom: 0;
+  color: var(--color-primary);
+  cursor: pointer;
 }

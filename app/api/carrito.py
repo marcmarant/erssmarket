@@ -2,11 +2,13 @@ from flask import Blueprint, jsonify, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from ..db import db
 from ..db import Producto
+from api import carrito
 
-carrito = Blueprint('carrito', __name__)
+
+carrito_bp = Blueprint('carrito', __name__)
 
 
-@carrito.route('/agregar', methods=['POST'])
+@carrito_bp.route('/carrito/agregar', methods=['POST'])
 @jwt_required()
 def agregar_al_carrito():
 
@@ -41,4 +43,26 @@ def agregar_al_carrito():
   except Exception as e:
     db.session.rollback()
     return jsonify({"error": str(e)}), 500
+
+@carrito_bp.route('/carrito', methods=['GET'])
+def obtener_carrito():
+    contenido = []
+    for prod_id, cantidad in carrito.items():
+        producto = next((p for p in productos if p["id"] == prod_id), None)
+        if producto:
+            contenido.append({
+                "id": prod_id,
+                "nombre": producto["nombre"],
+                "precio_unitario": producto["precio"],
+                "cantidad": cantidad,
+                "total": producto["precio"] * cantidad
+            })
+    return jsonify(contenido)
+
+  
+@carrito_bp.route('carrito/vaciar', methods=['DELETE'])
+@jwt_required()
+def vaciar_carrito():
+    carrito.clear()
+    return jsonify({"mensaje": "Carrito vaciado correctamente"})
 
