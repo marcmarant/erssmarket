@@ -7,6 +7,6 @@ from ..api.pedidos import pedidos
 api = Blueprint('api', __name__)
 
 api.register_blueprint(autenticacion)
-api.register_blueprint(productos)
+api.register_blueprint(productos, url_prefix='/productos')
 api.register_blueprint(carrito, url_prefix='/carrito') 
 api.register_blueprint(pedidos, url_prefix='/pedidos') 
