@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, url_for, redirect, jsonify
 from flask_jwt_extended import verify_jwt_in_request, jwt_required, get_jwt_identity
 from ..api.productos import get_products, get_available_products_query
+from ..api.carrito import get_carrito_products_query
 from ..api.pedidos import get_pedidos_by_user
 from ..api.autenticacion import get_user_by_id
 from ..db import db
