@@ -32,7 +32,7 @@ def get_products_query():
 @productos.route('/productos', methods=['GET'])
 def get_products():
   try:
-    get_products_query()
+    products_list = get_products_query()
     return jsonify(products_list), 200
   except Exception as e:
     print(f"Error al obtener los productos: {e}")

@@ -78,7 +78,7 @@ VALUES
 INSERT INTO pedido (usuario_id, precio_total) 
 VALUES 
 (1, 45), -- Pedido 1 de Juan Pérez
-(2, 95); -- Pedido 2 de Juan Pérez
+(1, 95); -- Pedido 2 de Juan Pérez
 
 INSERT INTO producto_pedido (pedido_id, producto_id, precio, cantidad) 
 VALUES 

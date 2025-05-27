@@ -84,27 +84,5 @@ def pedidos():
     if not user_id:
         return redirect(url_for('main.login'))
     # Llamar a la API de los pedidos
-    pedidos = [
-        {
-            "id": 1,
-            "usuario_id": 1,
-            "fecha": "2025-5-10",
-            "productos": [
-                {"nombre": "balon", "cantidad": 3, "precio": 4.99, "fotoUrl": "/static/images/balon.jpg"},
-                {"nombre": "camiseta", "cantidad": 1, "precio": 10.5, "fotoUrl": "/static/images/camiseta.jpg"}
-            ],
-            "precio_total": 25.47
-        },
-        {
-            "id": 2,
-            "usuario_id": 2,
-            "fecha": "2025-4-13",
-            "productos": [
-                {"nombre": "balon", "cantidad": 3, "precio": 4.99, "fotoUrl": "/static/images/balon.jpg"},
-                {"nombre": "camiseta", "cantidad": 1, "precio": 10.5, "fotoUrl": "/static/images/camiseta.jpg"}
-            ],
-            "precio_total": 25.47
-        }
-    ]
     # Borrar lo anterior y pillarlo con una funcion
     return render_template('pedidos.html', pedidos=pedidos)
