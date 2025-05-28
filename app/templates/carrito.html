@@ -8,21 +8,41 @@
 {% endblock %}
 
 {% block content %}
-    <div class="contenedor1">
-            <div class="contenedor3"> <p><b>Precio Total 200€</b></p></div>
-            <div class="contenedor4"><button id="pagarCarrito">Pagar Carrito<i class="fas fa-sign-out-alt"></i></button></div>
-        </div>
-
-        <div class="contenedor2">
-            <div class="contenedor5"><p>Imagen</p> <p>Nombre del producto</p></div>
-            <div class="contenedor6">
-                <p>Unidades: (x3) Precio Total 20€</p>
-                <button id="quitarItem">Quitar Del Carrito<i class="fas fa-sign-out-alt"></i></button>
+     <div class="contenedor">
+        <div class="contenedor1">
+            <div class="contenedor3">
+                <p><b>Precio Total 200€</b></p>
+            </div>
+            <div class="contenedor4"><button id="pagarCarrito">Pagar Carrito</button>
             </div>
         </div>
 
-        <button id="vaciarCarrito">Vaciar  Carrito<i class="fas fa-sign-out-alt"></i></button>
-    
+        <br>
+        <br>
+
+        <div class="contenedor2">
+            <div class="contenedor5">
+                <div class="contenedor8">
+                    <p>Imagen</p>
+                </div>
+                <div class="contenedor7">
+                    <p><b>Nombre del producto</b></p>
+                </div>
+            </div>
+            <div class="contenedor6">
+                <div class="contenedor7">
+                    <p>Unidades: (x3) Precio Total 20€</p>
+                </div>
+                <div class="contenedor8">
+                    <button id="quitarItem">Quitar Del Carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <br><br>
+
+        <button id="vaciarCarrito">Vaciar Carrito</button>
+    </div>
 {% endblock %}
 
 
