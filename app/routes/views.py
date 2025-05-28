@@ -68,35 +68,11 @@ Ruta con los productos agregados al carrito, de forma que el usuario
 pueda vaciarlo o efectuar la compra.
 """
 @main.route('/carrito')
-#@jwt_required(optional=True)
+@jwt_required(optional=True)
 def carrito():
-    #user_id = get_jwt_identity()
-    if True:#if user_id:
-        #carrito, precio_total = get_carrito_products_query(user_id)
-        carrito = [
-            {
-                'id': 1,
-                'nombre': 'Producto 1',
-                'precio': 100.0,
-                'cantidad': 2,
-                'fotoUrl': '/static/images/balon.jpg'
-            },
-            {
-                'id': 2,
-                'nombre': 'Producto 2',
-                'precio': 50.0,
-                'cantidad': 1,
-                'fotoUrl': '/static/images/balon.jpg'
-            },
-            {
-                'id': 3,
-                'nombre': 'Producto 3',
-                'precio': 75.0,
-                'cantidad': 3,
-                'fotoUrl': '/static/images/balon.jpg'
-            }
-        ]
-        precio_total = sum(item['precio'] * item['cantidad'] for item in carrito)
+    user_id = get_jwt_identity()
+    if user_id:
+        carrito, precio_total = get_carrito_products_query(user_id)
         return render_template('carrito.html', carrito=carrito, precio_total=precio_total)
     return redirect(url_for('main.login'))
 

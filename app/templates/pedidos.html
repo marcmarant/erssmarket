@@ -20,13 +20,13 @@
                     {% for producto in pedido.productos %}
                         <div class="pedido-producto">
                             <div class="pedido-producto-info">
-                                <h4><span>{{producto.nombre}}</span> {{producto.precio}} € x{{producto.cantidad}}</h4>
+                                <h4><span>{{producto.nombre}}</span> {{producto.precio / 100 }} € x{{producto.cantidad}}</h4>
                             </div>
                             <img src={{producto.fotoUrl}} alt={{producto.nombre}} class="imagen-producto">
                         </div>
                     {% endfor %}
                 </div>
-                <h3>Total: {{ pedido.precio_total }} €</h3>
+                <h3>Total: {{ pedido.precio_total / 100 }} €</h3>
             </div>
         {% endfor %}
     {% endif %}

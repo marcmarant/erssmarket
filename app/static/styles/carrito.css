@@ -58,13 +58,12 @@ h2 {
     margin-top: 30px;
 }
 
-
 #vaciarCarrito{
     width: 170px;
     height: 50px;
 }
 
-#vaciarCarrito, #quitarQuitem{
+#vaciarCarrito, .quitarItem {
     background-color: #e53935; /* rojo alerta */
 }
 
@@ -72,7 +71,7 @@ h2 {
     background-color: #4CAF50; /* verde agradable */
 }
 
-#vaciarCarrito, #quitarItem, #pagarCarrito {
+#vaciarCarrito,  #pagarCarrito, .quitarItem {
   color: white;
   border: none;
   padding: 10px 20px;
@@ -82,7 +81,7 @@ h2 {
   transition: background-color 0.3s ease;
 }
 
-#quitarItem {
+.quitarItem {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -94,7 +93,7 @@ h2 {
     align-items: center;
 }
 
-#vaciarCarrito:hover, #quitarItem:hover {
+#vaciarCarrito:hover, .quitarItem:hover {
   background-color: #c62828; /* rojo más oscuro para hover */
 }
 
