@@ -1,41 +1,101 @@
-<!-- templates/productos.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Productos</title>
-</head>
-<body>
-    <h1>Productos disponibles</h1>
-    <ul id="lista-productos"></ul>
 
-    <script>
-        async function cargarProductos() {
-            const res = await fetch('/productos');
-            const productos = await res.json();
-            const lista = document.getElementById('lista-productos');
+{% extends "base/base.html" %}
 
-            productos.forEach(p => {
-                const li = document.createElement('li');
-                li.innerHTML = `
-                    ${p.nombre} - ${p.precio} €
-                    <button onclick="agregarAlCarrito(${p.id})">Agregar</button>
-                `;
-                lista.appendChild(li);
-            });
+{% block title %}Selector de productos{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/selector.css') }}">
+{% endblock %}
+
+{% block content %}
+    <div class="margen-central">
+
+        {% for producto in productos %}
+        <div class="caja-producto" data-id="{{ producto.id }}">
+            <div class="caja1">
+                    <h1>{{ producto.nombre }}</h1><br>
+                    <p> {{ producto.descripcion }} </p><br>
+                <div class="cantidad-control">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(-1, this)">-</button>
+                    <input type="number" class="cantidad" value="0" min="0" oninput="validarCantidad(this)">
+                    <button class="btn-cantidad" onclick="cambiarCantidad(1, this)">+</button>
+                </div>
+                                
+                <div class="caja5">       
+                    <h3 id="precioProducto">Precio Total: 0€</h3> 
+                    <button class="btn-agregar" onclick="añadirAlCarrito(this)">Añadir al carrito</button>              
+                </div>      
+            </div>                
+            <div class="caja2">
+                <div class="precio-destacado">{{producto.precio}}€</div>
+                <img src={{producto.fotoUrl}} alt={{producto.nombre}} class="imagen-producto">
+            </div>               
+        </div>
+        {% endfor %}
+                
+    </div>
+{% endblock %}
+
+{% block script %}
+
+<script>
+    function cambiarCantidad(cambio, elemento) {
+        const cantidadInput = elemento.parentElement.querySelector('.cantidad');
+        let cantidad = parseInt(cantidadInput.value) || 0;
+        cantidad = Math.max(0, cantidad + cambio);
+        cantidadInput.value = cantidad;
+        actualizarPrecio(elemento);
+    }
+
+    function validarCantidad(input) {
+        if (input.value < 0) {
+            input.value = 0;
         }
+        actualizarPrecio(input);
+    }
 
-        async function agregarAlCarrito(id) {
-            await fetch('/carrito/agregar', {
+    function actualizarPrecio(elemento) {
+        const producto = elemento.closest('.caja-producto');
+        const cantidad = parseInt(producto.querySelector('.cantidad').value) || 0;
+        const precioUnitario = parseFloat(producto.querySelector('.precio-destacado').textContent.replace('€', '').trim());
+        const precioTotal = cantidad * precioUnitario;
+        const precioElemento = producto.querySelector('#precioProducto');
+        precioElemento.textContent = `Precio Total: ${precioTotal.toFixed(2)}€`;
+    }
+
+    function añadirAlCarrito(elemento) {
+        const producto = elemento.closest('.caja-producto');
+        const productoId = producto.dataset.id;  
+        const cantidad = parseInt(producto.querySelector('.cantidad').value) || 0;
+
+        if (cantidad > 0) {
+            const data = {
+                producto_id: productoId,
+                cantidad: cantidad
+            };
+
+            fetch('/api/carrito/agregar', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: id, cantidad: 1 })
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                alert(result.message);
+            })
+            .catch(error => {
+                console.error('Error al añadir al carrito:', error);
             });
-            alert('Producto agregado al carrito');
+
+            producto.querySelector('.cantidad').value = 0;
+            producto.querySelector('#precioProducto').textContent = "Precio Total: 0€";
+        } else {
+            alert("La cantidad debe ser mayor a 0.");
         }
+    }
+</script>
 
-        cargarProductos();
-    </script>
+{% endblock %}
 
-    <a href="/carrito">Ver carrito</a>
-</body>
-</html>

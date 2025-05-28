@@ -58,10 +58,10 @@ def register():
 Ruta con los diferentes productos para que el usuario
 los pueda agregar al carrito.
 """
-@main.route('/selector')
+@main.route('/productos')
 def selector():
     productos = get_available_products_query()
-    return render_template('selector.html', productos=productos)
+    return render_template('productos.html', productos=productos)
 
 """
 Ruta con los productos agregados al carrito, de forma que el usuario

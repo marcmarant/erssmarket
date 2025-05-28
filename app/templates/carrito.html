@@ -20,24 +20,26 @@
         <br>
         <br>
 
-        <div class="contenedor2">
-            <div class="contenedor5">
-                <div class="contenedor8">
-                    <p>Imagen</p>
+        {% for producto in carrito %}
+            <div class="contenedor2">
+                <div class="contenedor5">
+                    <div class="contenedor8">
+                        <img src={{producto.fotoUrl}} />
+                    </div>
+                    <div class="contenedor7">
+                        <p><b>{{ producto.nombre }}</b></p>
+                    </div>
                 </div>
-                <div class="contenedor7">
-                    <p><b>Nombre del producto</b></p>
+                <div class="contenedor6">
+                    <div class="contenedor7">
+                        <p>Unidades: {{ producto.cantidad }} Precio Total {{ producto.precio }}</p>
+                    </div>
+                    <div class="contenedor8">
+                        <button id="quitarItem">Quitar Del Carrito</button>
+                    </div>
                 </div>
             </div>
-            <div class="contenedor6">
-                <div class="contenedor7">
-                    <p>Unidades: (x3) Precio Total 20€</p>
-                </div>
-                <div class="contenedor8">
-                    <button id="quitarItem">Quitar Del Carrito</button>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
 
         <br><br>
 
