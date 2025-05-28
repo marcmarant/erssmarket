@@ -8,53 +8,21 @@
 {% endblock %}
 
 {% block content %}
-<div class="main-container">
-    
-    {% for producto in productos %}
-    <div class="caja-producto">
-        <div class="producto" data-id="{{ producto.id }}">
-            <div class="parte-superior">
-                <button type="button" id="cambiar">Cambiar producto</button>
-            </div>
-            <div class="contenedor1">
-                <label id="label-nombre">Nombre:</label>
-                <span class="texto-plano">{{ producto.nombre }}</span>
-                <input type="text" name="nombre" value="{{ producto.nombre }}" data-original="{{ producto.nombre }}" class="editable oculto">
-            </div>
-
-            <div class="parte-media">                
-                <div class="pm1">
-                    <label for="descripcion">Descripción:</label>
-                    <span class="texto-plano" id="texto-plano2">{{ producto.descripcion }}</span>
-                    <textarea id="descripcion" name="descripcion" data-original="{{ producto.descripcion }}" class="editable oculto">{{ producto.descripcion }}</textarea>
-                </div>
-                <div class="pm2">
-                    <div class="foto"><img src="{{producto.fotoUrl}}" alt="Imagen del producto" width="150" height="150" data-original="{{ producto.fotoUrl }}">
-                    </div>
-                    <div class="anyadir-foto">
-                        <button type="button" id="anyadir" data-original="Cambiar foto">Cambiar foto</button>
-                    </div>
-                </div>                
-            </div>
-            <div class="contenedor1">
-                <label for="precio">Precio:</label>
-                <span class="texto-plano" id="texto-plano3">{{ producto.precio }}</span>
-                <input type="number" id="precio" name="precio" min="0" step="1.00" value="{{ producto.precio }}" data-original="{{ producto.precio }}" class="editable oculto">
-                <label for="unidades">&nbsp;&nbsp;&nbsp;Stock (unidades):</label>
-                <span class="texto-plano" id="texto-plano3">{{producto.stock}}</span>
-                <input type="number" id="unidades" name="unidades" min="0" step="1" value="{{ producto.stock }}" data-original="{{ producto.stock }}" class="editable oculto">
-            </div>
-        
-            <div class="parte-superior">
-                <button type="button" id="cancelar">Cancelar cambios</button>
-                <button type="button" id="guardar">Guardar cambios</button>
-            </div>
-            
+    <div class="contenedor1">
+            <div class="contenedor3"> <p><b>Precio Total 200€</b></p></div>
+            <div class="contenedor4"><button id="pagarCarrito">Pagar Carrito<i class="fas fa-sign-out-alt"></i></button></div>
         </div>
-    </div>
-    {% endfor %}
-  
-</div>    
+
+        <div class="contenedor2">
+            <div class="contenedor5"><p>Imagen</p> <p>Nombre del producto</p></div>
+            <div class="contenedor6">
+                <p>Unidades: (x3) Precio Total 20€</p>
+                <button id="quitarItem">Quitar Del Carrito<i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </div>
+
+        <button id="vaciarCarrito">Vaciar  Carrito<i class="fas fa-sign-out-alt"></i></button>
+    
 {% endblock %}
 
 
