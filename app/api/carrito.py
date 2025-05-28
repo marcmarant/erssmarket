@@ -87,7 +87,7 @@ def substract_from_carrito(producto_id):
         if not item_carrito:
             return jsonify({"error": "Producto no encontrado en el carrito"}), 404
         
-        if item_carrito.cantidad > 0:
+        if item_carrito.cantidad > 1:
             item_carrito.cantidad -= 1
         else:
             db.session.delete(item_carrito)
