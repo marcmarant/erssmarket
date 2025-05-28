@@ -7,23 +7,27 @@
 {% endblock %}
 
 {% block content %}
-    {% for pedido in pedidos %}
-        <div class="pedido">
-            <div class="pedido-header">
-                <h3>Nº Pedido: {{ pedido.id }}</h3>
-                <h3>{{ pedido.fecha_creacion }}</h3>
-            </div>
-            <div class="pedido-body">
-                {% for producto in pedido.productos %}
-                    <div class="pedido-producto">
-                        <div class="pedido-producto-info">
-                            <h4><span>{{producto.nombre}}</span> {{producto.precio}} € x{{producto.cantidad}}</h4>
+    {% if not pedidos %}
+        <h2>Aun no se ha realizado ningún pedido</h2>
+    {% else %}
+        {% for pedido in pedidos %}
+            <div class="pedido">
+                <div class="pedido-header">
+                    <h3>Nº Pedido: {{ pedido.id }}</h3>
+                    <h3>{{ pedido.fecha_creacion }}</h3>
+                </div>
+                <div class="pedido-body">
+                    {% for producto in pedido.productos %}
+                        <div class="pedido-producto">
+                            <div class="pedido-producto-info">
+                                <h4><span>{{producto.nombre}}</span> {{producto.precio}} € x{{producto.cantidad}}</h4>
+                            </div>
+                            <img src={{producto.fotoUrl}} alt={{producto.nombre}} class="imagen-producto">
                         </div>
-                        <img src={{producto.fotoUrl}} alt={{producto.nombre}} class="imagen-producto">
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
+                <h3>Total: {{ pedido.precio_total }} €</h3>
             </div>
-            <h3>Total: {{ pedido.precio_total }} €</h3>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    {% endif %}
 {% endblock %}

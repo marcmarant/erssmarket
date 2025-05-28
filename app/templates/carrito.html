@@ -1,4 +1,3 @@
-
 {% extends "base/base.html" %}
 
 {% block title %}Selector de productos{% endblock %}
@@ -8,147 +7,73 @@
 {% endblock %}
 
 {% block content %}
-     <div class="contenedor">
-        <div class="contenedor1">
-            <div class="contenedor3">
-                <p><b>Precio Total 200€</b></p>
-            </div>
-            <div class="contenedor4"><button id="pagarCarrito">Pagar Carrito</button>
-            </div>
-        </div>
-
-        <br>
-        <br>
-
-        {% for producto in carrito %}
-            <div class="contenedor2">
-                <div class="contenedor5">
-                    <div class="contenedor8">
-                        <img src={{producto.fotoUrl}} />
+     <div class="carrito">
+        {% if not carrito %}
+            <h2>El carrito está vacío</h2>
+        {% else %}
+            {% for producto in carrito %}
+                <div class="producto">
+                    <div class="producto-left">
+                        <h3>{{ producto.nombre }}</h3>
+                        <h3>{{ producto.precio }}€ x{{ producto.cantidad }} Unidades</h3>
                     </div>
-                    <div class="contenedor7">
-                        <p><b>{{ producto.nombre }}</b></p>
+                    <div class="producto-right">
+                        <i class="fa-solid fa-minus" id="quitarItem" data-producto-id="{{ producto.id }}"></i>
+                        <img src="{{ producto.fotoUrl }}" alt="{{ producto.nombre }}">
                     </div>
                 </div>
-                <div class="contenedor6">
-                    <div class="contenedor7">
-                        <p>Unidades: {{ producto.cantidad }} Precio Total {{ producto.precio }}</p>
-                    </div>
-                    <div class="contenedor8">
-                        <button id="quitarItem">Quitar Del Carrito</button>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-
-        <br><br>
-
-        <button id="vaciarCarrito">Vaciar Carrito</button>
+            {% endfor %}
+            <h2>Precio Total: {{ precio_total }}€</h2>
+        {% endif %}
     </div>
+    {% if carrito %}
+        <div class="buttons">
+            <button id="vaciarCarrito">Vaciar Carrito</button>
+            <button id="pagarCarrito">Pagar Carrito</button>
+        </div>
+    {% endif %}
 {% endblock %}
-
 
 {% block script %}
-
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const cajasProducto = document.querySelectorAll(".producto");
-
-            cajasProducto.forEach(productoEl => {
-                const productoId = productoEl.dataset.id;
-
-                const inputNombre    = productoEl.querySelector('input[name="nombre"]');
-                const textareaDesc   = productoEl.querySelector('textarea[name="descripcion"]');
-                const inputPrecio    = productoEl.querySelector('input[name="precio"]');
-                const inputUnidades  = productoEl.querySelector('input[name="unidades"]');
-
-                const btnGuardar  = productoEl.querySelector("#guardar");
-                const btnCancelar = productoEl.querySelector("#cancelar");
-                const btnCambiar  = productoEl.querySelector("#cambiar");
-
-                btnGuardar.addEventListener("click", function() {
-                    let diferencias = 0;
-                    const payload = {};
-
-                    if (inputNombre.value.trim() !== inputNombre.dataset.original) {
-                        diferencias++;
-                        payload.nombre = inputNombre.value.trim();
-                    }
-
-                    if (textareaDesc.value.trim() !== textareaDesc.dataset.original) {
-                        diferencias++;
-                        payload.descripcion = textareaDesc.value.trim();
-                    }
-
-                    if (inputPrecio.value !== inputPrecio.dataset.original) {
-                        diferencias++;
-                        payload.precio = parseFloat(inputPrecio.value);
-                    }
-
-                    if (inputUnidades.value !== inputUnidades.dataset.original) {
-                        diferencias++;
-                        payload.stock = parseInt(inputUnidades.value);
-                    }
-
-                    if (diferencias === 0) {
-                        restaurarOriginal(productoEl);
-                        alternarEdicion(productoEl, false);
-                        return;
-                    }
-
-                    const metodo = diferencias === 1 ? 'PATCH' : 'PUT';
-
-                    fetch(`/productos/${productoId}`, {
-                        method: metodo,
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    })
-                    .then(res => {
-                        if (!res.ok) throw new Error('Error al actualizar el producto');
-                        return res.json();
-                    })
-                    .then(data => {
-                        alert("Producto actualizado correctamente.");
-                        location.reload();  // Puedes actualizar campos manualmente si prefieres evitar reload
-                    })
-                    .catch(err => {
-                        console.error(err);
-                        alert("Error al guardar cambios.");
-                    });
-                });
-
-                btnCambiar.addEventListener("click", () => {
-                    alternarEdicion(productoEl, true);
-                });
-
-                btnCancelar.addEventListener("click", () => {
-                    restaurarOriginal(productoEl);
-                    alternarEdicion(productoEl, false);
-                });
-
-                function alternarEdicion(producto, modoEdicion) {
-                    const spans = producto.querySelectorAll(".texto-plano");
-                    const inputs = producto.querySelectorAll(".editable");
-
-                    spans.forEach(span => {
-                        span.style.display = modoEdicion ? "none" : "inline";
-                    });
-                    inputs.forEach(input => {
-                        input.classList.toggle("oculto", !modoEdicion);
-                    });
-                }
-
-                function restaurarOriginal(producto) {
-                    const inputs = producto.querySelectorAll(".editable");
-                    inputs.forEach(input => {
-                        input.value = input.dataset.original;
-                    });
-                }
+        document.getElementById('vaciarCarrito').addEventListener('click', function () {
+            fetch('api/carrito/vaciar', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            }).then(result => {
+                alert(result.message);
+                window.location.reload()
+            }).catch(error => {
+                console.error('Error al añadir al vaciar el carrito:', error);
             });
         });
+
+        document.getElementById('pagarCarrito').addEventListener('click', function () {
+            fetch('api/checkout', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+            }).then(result => {
+                alert(result.message);
+                window.location.reload()
+            }).catch(error => {
+                console.error('Error al añadir al vaciar el carrito:', error);
+            });
+        });
+
+        document.querySelectorAll('.quitarItem').forEach(button => {
+            button.addEventListener('click', function () {
+                const productoId = this.dataset.productoId;
+                fetch(`api/carrito/${productoId}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                })
+                .then(result => {
+                    window.location.reload();
+                }).catch(error => {
+                    console.error('Error al quitar el producto del carrito:', error);
+                });
+            });
+        });        
     </script>
 
-
 {% endblock %}
-
-

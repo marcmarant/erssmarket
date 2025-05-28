@@ -15,7 +15,8 @@ def get_carrito_products_query(user_id):
         }
         for producto, cantidad in productos_cantidad
     ]
-    return productos_carrito
+    precio_total = sum(producto['precio'] * producto['cantidad'] for producto in productos_carrito)
+    return productos_carrito, precio_total
 
 """
 Ruta que devuelve los productos que tiene el carrito actualmente.
@@ -25,8 +26,11 @@ Ruta que devuelve los productos que tiene el carrito actualmente.
 def get_carrito():
     try:
         user_id = get_jwt_identity()
-        productos_carrito = get_carrito_products_query(user_id)
-        return jsonify(productos_carrito), 200
+        productos_carrito, precio_total = get_carrito_products_query(user_id)
+        return jsonify({
+            "productos": productos_carrito,
+            "precio_total": precio_total
+        }), 200
     except Exception:
         return jsonify({"error": "Error al intentar obtener los datos del carrrito"}), 500
 
@@ -67,5 +71,27 @@ def vaciar_carrito():
         Carrito.query.filter_by(usuario_id=user_id).delete()
         db.session.commit()
         return jsonify({"mensaje": "Carrito vaciado correctamente"}), 200
+    except Exception as e:
+        return jsonify({"error": "Error al intentar vaciar el carrito"}), 500
+
+"""
+Ruta que quita una unidad de un producto del carrito.
+"""
+@carrito.route('/<int:producto_id>', methods=['DELETE'])
+@jwt_required()
+def substract_from_carrito(producto_id):
+    try:
+        user_id = get_jwt_identity()
+        item_carrito = Carrito.query.filter_by(usuario_id=user_id, producto_id=producto_id).first()
+
+        if not item_carrito:
+            return jsonify({"error": "Producto no encontrado en el carrito"}), 404
+        
+        if item_carrito.cantidad > 0:
+            item_carrito.cantidad -= 1
+        else:
+            db.session.delete(item_carrito)
+        db.session.commit()
+        return jsonify({"mensaje": "Producto retirado del carrito"}), 200
     except Exception as e:
         return jsonify({"error": "Error al intentar vaciar el carrito"}), 500
