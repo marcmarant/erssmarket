@@ -45,7 +45,7 @@ def update_product(id):
         product = Producto.query.filter(Producto.id == id).first()
         if not product:
             return jsonify({"error": "No existe ningún producto con el id dado"}), 404
-        if 'nombre' not in data or 'descripcion' not in data or 'precio' not in data or 'stock' not in data:
+        if 'nombre' not in data and 'descripcion' not in data and 'precio' not in data and 'stock' not in data:
             return jsonify({"error": "Peticion Invalida se necesita nombre, descripción, precio y stock"}), 400
         if not isinstance(data['precio'], (int)):
                 return jsonify({"error": "El precio debe ser un entero en centimos"}), 400
