@@ -52,13 +52,13 @@
         });
 
         document.getElementById('pagarCarrito').addEventListener('click', function () {
-            const modal = document.querySelector('modal');
+            const modal = document.querySelector('.modal');
             modal.style.display = "flex";
             fetch('api/checkout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
             }).then(result => {
-                modal.style.display = "hidden";
+                modal.style.display = "none";
                 alert("La compra ha sido realizada con exito");
                 window.location.reload()
             }).catch(error => {
