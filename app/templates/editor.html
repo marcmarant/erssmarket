@@ -107,7 +107,7 @@
 
                     const metodo = diferencias === 1 ? 'PATCH' : 'PUT';
 
-                    fetch(`/productos/${productoId}`, {
+                    fetch(`/api/productos/${productoId}`, {
                         method: metodo,
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(payload)
