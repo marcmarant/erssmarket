@@ -44,6 +44,7 @@ def update_product(id):
         data = request.get_json()
         product = Producto.query.filter(Producto.id == id).first()
         if not product:
+            print("LLEGO AQUI")
             return jsonify({"error": "No existe ningún producto con el id dado"}), 404
         if 'nombre' not in data or 'descripcion' not in data or 'precio' not in data or 'stock' not in data:
             return jsonify({"error": "Peticion Invalida se necesita nombre, descripción, precio y stock"}), 400
