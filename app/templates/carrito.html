@@ -49,7 +49,7 @@
 
         document.getElementById('pagarCarrito').addEventListener('click', function () {
             fetch('api/checkout', {
-                method: 'DELETE',
+                method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
             }).then(result => {
                 alert(result.message);
