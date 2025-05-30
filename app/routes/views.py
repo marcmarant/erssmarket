@@ -31,10 +31,9 @@ de forma que este sera accesible en todas las vistas de la aplicación.
 @jwt_required(optional=True)
 def inject_carrito_length_info():
     user_id = get_jwt_identity()
+    carrito_length = 0
     if user_id:
-        carritoLength = len(get_carrito_products_query(user_id)[0])
-    else:
-        carritoLength = 0
+        carrito_length = len(get_carrito_products_query(user_id)[0])
     return {'carrito_length': carrito_length}
 
 """
