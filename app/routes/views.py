@@ -59,9 +59,14 @@ Ruta con los diferentes productos para que el usuario
 los pueda agregar al carrito.
 """
 @main.route('/productos')
+@jwt_required(optional=True)
 def selector():
+    carritoLength = 0
+    user_id = get_jwt_identity()
+    if user_id:
+        carritoLength = len(get_carrito_products_query(user_id)[0])
     productos = get_available_products_query()
-    return render_template('productos.html', productos=productos)
+    return render_template('productos.html', productos=productos, carritoLength=carritoLength)
 
 """
 Ruta con los productos agregados al carrito, de forma que el usuario
