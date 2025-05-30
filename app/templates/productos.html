@@ -5,9 +5,6 @@
 
 {% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='styles/selector.css') }}">
-    <script>
-        const carritoLengthJs = {{ carritoLength | tojson }};
-    </script>
 {% endblock %}
 
 {% block content %}
@@ -42,12 +39,6 @@
 {% block script %}
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        if ( carritoLengthJs > 0) {
-            document.getElementById('productsNotification').style.display = 'block';
-        }
-    });
-
     function cambiarCantidad(cambio, elemento) {
         const cantidadInput = elemento.parentElement.querySelector('.cantidad');
         let cantidad = parseInt(cantidadInput.value) || 0;

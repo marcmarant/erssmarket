@@ -24,6 +24,20 @@ def inject_user_info():
     return {'current_user': user}
 
 """
+Función para inyectar el número de productos en el carrito del usuario actual,
+de forma que este sera accesible en todas las vistas de la aplicación.
+"""
+@main.app_context_processor
+@jwt_required(optional=True)
+def inject_carrito_length_info():
+    user_id = get_jwt_identity()
+    if user_id:
+        carritoLength = len(get_carrito_products_query(user_id)[0])
+    else:
+        carritoLength = 0
+    return {'carrito_length': carrito_length}
+
+"""
 Ruta principal de la aplicación, muestra la vista de inicio.
 """
 @main.route('/')
@@ -59,14 +73,10 @@ Ruta con los diferentes productos para que el usuario
 los pueda agregar al carrito.
 """
 @main.route('/productos')
-@jwt_required(optional=True)
 def selector():
     carritoLength = 0
-    user_id = get_jwt_identity()
-    if user_id:
-        carritoLength = len(get_carrito_products_query(user_id)[0])
     productos = get_available_products_query()
-    return render_template('productos.html', productos=productos, carritoLength=carritoLength)
+    return render_template('productos.html', productos=productos)
 
 """
 Ruta con los productos agregados al carrito, de forma que el usuario
