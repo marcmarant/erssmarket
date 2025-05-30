@@ -107,6 +107,21 @@
 
                     const metodo = diferencias === 1 ? 'PATCH' : 'PUT';
 
+                    if (diferencias > 1) {
+                        if (!payload.nombre) {
+                            payload.nombre = inputNombre.dataset.original;
+                        }
+                        if (!payload.descripcion) {
+                            payload.descripcion = extareaDesc.dataset.original;
+                        }
+                        if (!payload.precio) {
+                            payload.precio = parseInt(inputPrecio.dataset.original);
+                        }
+                        if (!payload.stock) {
+                            payload.stock = parseInt(inputUnidades.dataset.original);
+                        }
+                    }
+
                     fetch(`/api/productos/${productoId}`, {
                         method: metodo,
                         headers: { 'Content-Type': 'application/json' },
