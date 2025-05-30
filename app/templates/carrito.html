@@ -25,6 +25,8 @@
             {% endfor %}
             <h2>Precio Total: {{ precio_total /100 }}€</h2>
         {% endif %}
+
+        <div class="modal"><h2>Procesando pago...</h2></div>
     </div>
     {% if carrito %}
         <div class="buttons">
@@ -32,6 +34,8 @@
             <button id="pagarCarrito">Pagar Carrito</button>
         </div>
     {% endif %}
+
+    
 {% endblock %}
 
 {% block script %}
@@ -48,11 +52,14 @@
         });
 
         document.getElementById('pagarCarrito').addEventListener('click', function () {
+            const modal = document.querySelector('modal');
+            modal.style.display = "flex";
             fetch('api/checkout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
             }).then(result => {
-                alert(result.message);
+                modal.style.display = "hidden";
+                alert("La compra ha sido realizada con exito");
                 window.location.reload()
             }).catch(error => {
                 console.error('Error al añadir al vaciar el carrito:', error);

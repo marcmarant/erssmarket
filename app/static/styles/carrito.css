@@ -22,6 +22,7 @@ h2 {
     border: 1px solid #333;
     border-radius: 20px;
     padding: 20px;
+    position: relative;
 }
 
 .producto {
@@ -101,3 +102,16 @@ h2 {
   background-color: #388E3C; /* verde más oscuro en hover */
 }
 
+.modal{
+
+    position: absolute;
+    width: 450px;
+    height: 300px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: hidden;
+    justify-content: center;
+    align-items: center;
+ 
+}
