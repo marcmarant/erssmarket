@@ -37,8 +37,8 @@
             </div>
             <div class="contenedor1">
                 <label for="precio">Precio:</label>
-                <span class="texto-plano" id="texto-plano3">{{ producto.precio }}</span>
-                <input type="number" id="precio" name="precio" min="0" step="1.00" value="{{ producto.precio }}" data-original="{{ producto.precio }}" class="editable oculto">
+                <span class="texto-plano" id="texto-plano3">{{ producto.precio / 100 }}</span>
+                <input type="number" id="precio" name="precio" min="0" step="1.00" value="{{ producto.precio / 100 }}" data-original="{{ producto.precio }}" class="editable oculto">
                 <label for="unidades">&nbsp;&nbsp;&nbsp;Stock (unidades):</label>
                 <span class="texto-plano" id="texto-plano3">{{producto.stock}}</span>
                 <input type="number" id="unidades" name="unidades" min="0" step="1" value="{{ producto.stock }}" data-original="{{ producto.stock }}" class="editable oculto">
@@ -89,9 +89,9 @@
                         payload.descripcion = textareaDesc.value.trim();
                     }
 
-                    if (inputPrecio.value !== inputPrecio.dataset.original) {
+                    if (inputPrecio.value * 100 != inputPrecio.dataset.original) {
                         diferencias++;
-                        payload.precio = parseFloat(inputPrecio.value);
+                        payload.precio = parseInt(inputPrecio.value * 100);
                     }
 
                     if (inputUnidades.value !== inputUnidades.dataset.original) {
