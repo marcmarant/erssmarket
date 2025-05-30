@@ -105,12 +105,12 @@ h2 {
 .modal{
     background: white;
     position: absolute;
-    width: 350px;
-    height: 200px;
+    width: 200px;
+    height: 80px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    display: hidden;
+    display: none;
     justify-content: center;
     align-items: center;
     border: solid 1px black;
