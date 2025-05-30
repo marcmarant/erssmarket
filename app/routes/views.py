@@ -86,7 +86,7 @@ def editor():
     user_id = get_jwt_identity()
     if user_id:
         user = get_user_by_id(user_id)
-        if user.is_admin:
+        if user and user['is_admin']:
             productos = get_products_query()
             return render_template('editor.html', productos=productos)
     return redirect(url_for('main.login'))
