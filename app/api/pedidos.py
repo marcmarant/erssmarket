@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify
 from flask_jwt_extended import get_jwt_identity, jwt_required
 from app.db import db, Pedido, Carrito, Producto, Producto_pedido
+from sqlalchemy import desc
 
 pedidos = Blueprint('pedidos', __name__)
 
@@ -27,12 +28,13 @@ def get_pedido_details(pedido):
 Función auxiliar que devuelve todos los pedidos
 """
 def get_pedidos_by_user(user_id):
-    pedidos = Pedido.query.filter_by(usuario_id=user_id).all()
+    pedidos = Pedido.query.filter_by(usuario_id=user_id).order_by(desc(Pedido.id)).all()
     resultado = []
     for pedido in pedidos:
         pedido_info = get_pedido_details(pedido)
         resultado.append(pedido_info)
     return resultado
+
 
 """
 Ruta que devuelve todos los pedidos realizados por el usuario.
