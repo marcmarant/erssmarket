@@ -34,12 +34,14 @@
 .item-container {
   opacity: 0;
   transform: translateY(50px);
-  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.6s ease;
 }
 
 .item-container.animated {
-  animation: slideUpFadeIn 0.6s ease-out forwards;
+  opacity: 1;
+  transform: translateY(0);
 }
+
 
 
 .item-container:hover {
@@ -107,17 +109,6 @@
   clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
   padding-right: 5%;
   border-radius: 10px 0 0 10px;
-}
-
-@keyframes slideUpFadeIn {
-  from {
-    transform: translateY(50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
 }
 
 
