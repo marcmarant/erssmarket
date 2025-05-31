@@ -114,10 +114,10 @@
                         if (!payload.descripcion) {
                             payload.descripcion = extareaDesc.dataset.original;
                         }
-                        if (!payload.precio) {
+                        if (!payload.precio && payload.precio !== 0) {
                             payload.precio = parseInt(inputPrecio.dataset.original);
                         }
-                        if (!payload.stock) {
+                        if (!payload.stock && payload.stock !== 0) {
                             payload.stock = parseInt(inputUnidades.dataset.original);
                         }
                     }

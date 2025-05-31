@@ -48,9 +48,9 @@ def update_product(id):
             return jsonify({"error": "No existe ningún producto con el id dado"}), 404
         if 'nombre' not in data or 'descripcion' not in data or 'precio' not in data or 'stock' not in data:
             return jsonify({"error": "Peticion Invalida se necesita nombre, descripción, precio y stock"}), 400
-        if not isinstance(data['precio'], (int)):
-            return jsonify({"error": "El precio debe ser un entero en centimos"}), 400
-        if not isinstance(data['stock'], (int)):
+        if not isinstance(data['precio'], (int)) or data['precio'] <= 0:
+            return jsonify({"error": "El precio debe ser un entero positivo en centimos"}), 400
+        if not isinstance(data['stock'], (int)) or data['stock'] < 0:
             return jsonify({"error": "El stock debe ser un entero"}), 400
         product.nombre = data['nombre']
         product.descripcion = data['descripcion']
