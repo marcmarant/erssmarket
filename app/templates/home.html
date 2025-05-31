@@ -61,10 +61,12 @@
     document.addEventListener("DOMContentLoaded", () => {
         const items = document.querySelectorAll(".item-container");
         items.forEach((el, i) => {
-            el.style.animation = `slideUpFadeIn 0.6s ease-out forwards`;
-            el.style.animationDelay = `${i * 0.2}s`;
+            setTimeout(() => {
+                el.classList.add("animated");
+            }, i * 200); // 0.2s entre cada uno
         });
     });
+
 </script>
 
 
