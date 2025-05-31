@@ -99,3 +99,19 @@
   border-radius: 10px 0 0 10px;
 }
 
+@keyframes slideUpFadeIn {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.item-container {
+  opacity: 0;  /* Para empezar invisibles */
+}
+
+
