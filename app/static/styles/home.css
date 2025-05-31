@@ -5,7 +5,15 @@
   gap: 20px; 
   justify-content: center; 
   padding: 20px;
+  background-image: url('../images/fondo.jpeg'); 
+  background-size: cover;     
+  background-position: center; 
+  background-repeat: no-repeat;
+  min-height: 100vh;          
 }
+
+
+
 
 .item-container {
   width: 45%;
