@@ -5,6 +5,13 @@ from ..db import Producto
 productos = Blueprint('productos', __name__)
 
 """
+Función auxiliar que devuelve todos los productos, esten o no disponibles.
+"""
+def get_products_query():
+    available_products = Producto.query.all()
+    return [product.to_dict() for product in available_products]
+
+"""
 Función auxiliar que devuelve todos los productos disponibles.
 """
 def get_available_products_query():

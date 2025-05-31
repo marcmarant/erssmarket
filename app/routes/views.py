@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, url_for, redirect, jsonify
 from flask_jwt_extended import verify_jwt_in_request, jwt_required, get_jwt_identity
-from ..api.productos import get_available_products_query
+from ..api.productos import get_products_query, get_available_products_query
 from ..api.carrito import get_carrito_products_query
 from ..api.pedidos import get_pedidos_by_user
 from ..api.autenticacion import get_user_by_id
@@ -101,7 +101,7 @@ def editor():
     if user_id:
         user = get_user_by_id(user_id)
         if user and user['is_admin']:
-            productos = get_available_products_query()
+            productos = get_products_query()
             return render_template('editor.html', productos=productos)
     return redirect(url_for('main.login'))
     
