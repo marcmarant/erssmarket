@@ -131,13 +131,10 @@ class UsuarioWeb(HttpUser):
     @task(2)
     def retirar_del_carrito(self):
         if self.autenticado and hasattr(self, 'random_producto_en_carrito'):
-            with self.client.delete(
-                f"/api/carrito/{self.random_producto_en_carrito}",
-                headers=self.headers
-            ) as response:
+            with self.client.delete(f"/api/carrito/{self.random_producto_en_carrito}", headers=self.headers, catch_response=True) as response:
                 if response.status_code != 200:
                     response_data = response.json()
-                    response.failure(f"{response.status_code} - Fallo al retirar del carrito: {response_data.get("error")}")
+                    response.failure(f"{response.status_code} - Fallo al retirar del carrito: {response_data.get('error')}")
 
     """
     Vacia el carrito
@@ -160,7 +157,7 @@ class UsuarioWeb(HttpUser):
                     response.success()
                 else:
                     response_data = response.json()
-                    response.failure(f"{response.status_code} - Fallo al realizar la compra: {response_data.get("error")}")
+                    response.failure(f"{response.status_code} - Fallo al realizar la compra: {response_data.get('error')}")
 
     """
     Consulta los pedidos anteriores del usuario
