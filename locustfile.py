@@ -168,10 +168,10 @@ class UsuarioWeb(HttpUser):
         if self.autenticado:
             self.client.get("/api/pedidos/", headers=self.headers)
             if response.status_code == 200:
-            pedidos = response.json()
-            if pedidos:
-                pedido = random.choice(pedido)
-                self.random_pedido = pedido.get("id")
+                pedidos = response.json()
+                if pedidos:
+                    pedido = random.choice(pedido)
+                    self.random_pedido = pedido.get("id")
 
     """
     Consulta para ver el detalle de un pedido individual
