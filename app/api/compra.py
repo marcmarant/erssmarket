@@ -18,9 +18,16 @@ def do_compra():
             return jsonify({"error": "El carrito está vacío"}), 400
 
         precios = []
+        productos_actualizados = []
         for item in carrito:
             producto = Producto.query.filter_by(id=item.producto_id).first()
-            precios.append((producto.id, producto.precio, item.cantidad))
+            if not producto:
+                return jsonify({"error": f"Producto con ID {item.producto_id} no encontrado"}), 404
+            if producto.stock < item.cantidad:
+                return jsonify({"error": f"Stock insuficiente para el producto '{producto.nombre}' (Stock disponible: {producto.stock})"}), 400
+            precios.append((producto.id, producto.precio, item.cantidad)) # Guardamos el precio y la cantidad del producto
+            producto.stock -= item.cantidad  # Reducimos stock
+            productos_actualizados.append(producto) # Guardamos el producto con el stock actualizado
 
         # Simulación del proceso de pago (espera de 3 segundos)
         time.sleep(3)
@@ -43,6 +50,10 @@ def do_compra():
                 cantidad=item.cantidad
             )
             db.session.add(producto_pedido)
+
+        # Una vez que se ha realizado el pedido se actualiza el stock de los productos
+        for producto in productos_actualizados:
+            db.session.add(producto)
 
         Carrito.query.filter_by(usuario_id=user_id).delete() # Se vacia el carrito
         db.session.commit()
