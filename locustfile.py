@@ -131,10 +131,12 @@ class UsuarioWeb(HttpUser):
     @task(2)
     def retirar_del_carrito(self):
         if self.autenticado and hasattr(self, 'random_producto_en_carrito'):
-            self.client.delete(
+            with self.client.delete(
                 f"/api/carrito/{self.random_producto_en_carrito}",
                 headers=self.headers
-            )
+            ) as response:
+                if response.status_code != 200:
+                    response.failure(f"{response.status_code} - Fallo al retirar del carrito: {response.error}")
 
     """
     Vacia el carrito
@@ -191,21 +193,6 @@ class UsuarioAdmin(HttpUser):
         'Espinilleras', 'Raqueta', 'Medias', 'Balón de baloncesto', 'Pelota de tenis',
         'Gorra', 'Sudadera', 'Chaqueta', 'Mochila', 'Toalla deportiva',
     ]
-    
-    # Función auxiliar para generar una descripción pseudo-realista
-    def generar_descripcion(longitud=50):
-        palabras_reales = [
-            'de', 'para', 'con', 'la', 'el', 'producto', 'calidad', 'diseño', 
-            'material', 'uso', 'color', 'tamaño', 'exclusivo', 'nuevo'
-        ]
-        resultado = []
-        while len(' '.join(resultado)) < longitud:
-            if random.random() > 0.3:
-                palabra = ''.join(random.choices(string.ascii_lowercase, k=random.randint(3, 8)))
-            else:
-                palabra = random.choice(palabras_reales)
-            resultado.append(palabra)
-        return (' '.join(resultado))[:longitud].strip()
 
     """
     Esta función se ejecuta automáticamente al inicio de cada usuario simulado.
@@ -274,7 +261,7 @@ class UsuarioAdmin(HttpUser):
             return
         producto_id = random.choice(self.producto_ids)
         nuevo_nombre = random.choice(self.posibles_nombres)
-        nueva_descripcion = self.generar_descripcion(100)
+        nueva_descripcion = "Descripción actualizada del producto " + nuevo_nombre
         self.client.put(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, json={
             "nombre": nuevo_nombre,
             "descripcion": nueva_descripcion,
