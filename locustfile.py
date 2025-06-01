@@ -136,7 +136,8 @@ class UsuarioWeb(HttpUser):
                 headers=self.headers
             ) as response:
                 if response.status_code != 200:
-                    response.failure(f"{response.status_code} - Fallo al retirar del carrito: {response.error}")
+                    response_data = response.json()
+                    response.failure(f"{response.status_code} - Fallo al retirar del carrito: {response_data.get("error")}")
 
     """
     Vacia el carrito
@@ -158,7 +159,8 @@ class UsuarioWeb(HttpUser):
                     time.sleep(random.uniform(2.5, 4.5))  # Simula espera de pasarela de pago
                     response.success()
                 else:
-                    response.failure(f"{response.status_code} - Fallo al realizar la compra: {response.error}")
+                    response_data = response.json()
+                    response.failure(f"{response.status_code} - Fallo al realizar la compra: {response_data.get("error")}")
 
     """
     Consulta los pedidos anteriores del usuario
