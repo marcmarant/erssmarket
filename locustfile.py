@@ -109,14 +109,13 @@ class UsuarioWeb(HttpUser):
     """
     @task(4)
     def agregar_al_carrito(self):
-        if self.autenticado:
-            if hasattr(self, 'random_producto'):
-                self.client.post("/api/carrito/agregar", headers=self.headers, json={
-                    "producto_id": self.random_producto,
-                    "cantidad": random.randint(1, 3)
-                })
-                # Guardar el último producto agregado al carrito
-                self.random_producto_en_carrito = self.random_producto
+        if self.autenticado and hasattr(self, 'random_producto'):
+            self.client.post("/api/carrito/agregar", headers=self.headers, json={
+                "producto_id": self.random_producto,
+                "cantidad": random.randint(1, 3)
+            })
+            # Guardar el último producto agregado al carrito
+            self.random_producto_en_carrito = self.random_producto
 
     """
     Consulta el contenido actual del carrito
@@ -131,12 +130,11 @@ class UsuarioWeb(HttpUser):
     """
     @task(2)
     def retirar_del_carrito(self):
-        if self.autenticado:
-            if hasattr(self, 'random_producto'):
-                self.client.delete(
-                    f"/api/productos/{self.random_producto_en_carrito}",
-                    headers=self.headers
-                )
+        if self.autenticado and hasattr(self, 'random_producto_en_carrito'):
+            self.client.delete(
+                f"/api/productos/{self.random_producto_en_carrito}",
+                headers=self.headers
+            )
 
     """
     Vacia el carrito
@@ -178,7 +176,7 @@ class UsuarioWeb(HttpUser):
     """
     @task(2)
     def ver_pedido_detallado(self):
-        if hasattr(self, 'random_pedido'):
+        if self.autenticado and hasattr(self, 'random_pedido'):
             self.client.get(f"/api/pedidos/{self.random_pedido}", headers=self.headers)
 
 """
