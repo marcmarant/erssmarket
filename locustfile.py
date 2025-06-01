@@ -164,7 +164,7 @@ class UsuarioWeb(HttpUser):
     @task(2)
     def ver_pedidos(self):
         if self.autenticado:
-            self.client.get("/api/pedidos/", headers=self.headers)
+            with self.client.get("/api/pedidos/", headers=self.headers) as response:
             if response.status_code == 200:
                 pedidos = response.json()
                 if pedidos:
@@ -225,7 +225,7 @@ class UsuarioAdmin(HttpUser):
         })
         login(self)
 
-        with self.client.get("/productos/", headers=self.headers, catch_response=True) as response:
+        with self.client.get("/api/productos/", headers=self.headers, catch_response=True) as response:
             if response.status_code == 200:
                 productos = response.json()
                 self.producto_ids = [p['id'] for p in productos]
@@ -241,7 +241,7 @@ class UsuarioAdmin(HttpUser):
             return
         producto_id = random.choice(self.producto_ids)
         nuevo_stock = random.randint(0, 200)
-        self.client.patch(f"/productos/{producto_id}", headers=self.headers, catch_response=True, json={
+        self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, json={
             "stock": nuevo_stock
         })
 
@@ -257,7 +257,7 @@ class UsuarioAdmin(HttpUser):
         else:
             factor = random.uniform(1.0, 2.0)
         producto_id = random.choice(self.producto_ids)
-        with self.client.patch(f"/productos/{producto_id}", headers=self.headers, catch_response=True) as response:
+        with self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True) as response:
             if response.status_code == 200:
                 producto = response.json()
                 nuevo_precio = round(producto['precio'] * factor, 2)
@@ -275,7 +275,7 @@ class UsuarioAdmin(HttpUser):
         producto_id = random.choice(self.producto_ids)
         nuevo_nombre = random.choice(self.posibles_nombres)
         nueva_descripcion = self.generar_descripcion(random.randint(30, 100))
-        self.client.put(f"/productos/{producto_id}", headers=self.headers, catch_response=True, json={
+        self.client.put(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, json={
             "nombre": nuevo_nombre,
             "descripcion": nueva_descripcion,
         })
