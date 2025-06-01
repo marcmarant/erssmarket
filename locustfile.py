@@ -158,7 +158,7 @@ class UsuarioWeb(HttpUser):
                     time.sleep(random.uniform(2.5, 4.5))  # Simula espera de pasarela de pago
                     response.success()
                 else:
-                    response.failure(f"Fallo en checkout: {response.status_code}")
+                    response.failure(f"{response.status_code} - Fallo al realizar la compra: {response.error}")
 
     """
     Consulta los pedidos anteriores del usuario
@@ -170,7 +170,7 @@ class UsuarioWeb(HttpUser):
                 if response.status_code == 200:
                     pedidos = response.json()
                     if pedidos:
-                        pedido = random.choice(pedido)
+                        pedido = random.choice(pedidos)
                         self.random_pedido = pedido.get("id")
 
     """
