@@ -244,11 +244,11 @@ class UsuarioAdmin(HttpUser):
         else:
             factor = random.uniform(1.0, 2.0)
         producto_id = random.choice(self.producto_ids)
-        with self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True) as response:
+        with self.client.get(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True) as response:
             if response.status_code == 200:
                 producto = response.json()
                 nuevo_precio = round(producto['precio'] * factor, 2)
-                self.client.patch("/productos/"+str(producto_id), headers=self.headers, catch_response=True, json={
+                self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, json={
                     "precio": nuevo_precio
                 })
 
