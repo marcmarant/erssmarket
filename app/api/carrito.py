@@ -45,10 +45,21 @@ def agregar_al_carrito():
         data = request.get_json()
         producto_id = data.get('producto_id')
         cantidad = data.get('cantidad', 1) # si no se pasa cantidad, se asume 1
+
         if not producto_id or cantidad <= 0:
             return jsonify({"error": "Peticion invalida"}), 400
 
+        producto = Producto.query.filter_by(id=producto_id).first()
+        if not producto:
+            return jsonify({"error": "Producto no encontrado"}), 404
+
         producto_en_carrito = Carrito.query.filter_by(usuario_id=user_id, producto_id=producto_id).first()
+
+        cantidad_total_solicitada = cantidad
+        if producto_en_carrito:
+            cantidad_total_solicitada += producto_en_carrito.cantidad
+        if producto.stock < cantidad_total_solicitada:
+            return jsonify({"error": f"Stock insuficiente. Solo hay {producto.stock} unidades disponibles."}), 400
 
         if producto_en_carrito:
             producto_en_carrito.cantidad += cantidad
