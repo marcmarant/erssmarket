@@ -132,7 +132,7 @@ class UsuarioWeb(HttpUser):
     def retirar_del_carrito(self):
         if self.autenticado and hasattr(self, 'random_producto_en_carrito'):
             self.client.delete(
-                f"/api/productos/{self.random_producto_en_carrito}",
+                f"/api/carrito/{self.random_producto_en_carrito}",
                 headers=self.headers
             )
 
@@ -274,7 +274,7 @@ class UsuarioAdmin(HttpUser):
             return
         producto_id = random.choice(self.producto_ids)
         nuevo_nombre = random.choice(self.posibles_nombres)
-        nueva_descripcion = self.generar_descripcion(random.randint(30, 100))
+        nueva_descripcion = self.generar_descripcion(100)
         self.client.put(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, json={
             "nombre": nuevo_nombre,
             "descripcion": nueva_descripcion,
