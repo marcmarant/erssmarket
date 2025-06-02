@@ -21,12 +21,13 @@ def register():
     email = data.get('email')
     password = data.get('password')
     nombre = data.get('name')
+    is_admin = data.get('is_admin', False)  # Por defecto, los usuarios no son administradores
     if not email or not password or not nombre:
         return jsonify({'error': 'Los campos email, contraseña y nombre son necesarios'}), 400
     if Usuario.query.filter_by(email=email).first():
         return jsonify({'error': 'El email ya está registrado'}), 400
 
-    nuevo_usuario = Usuario(email=email, contrasenya=password, nombre=nombre) # Los usuarios que se registran no se añaden como administradores
+    nuevo_usuario = Usuario(email=email, contrasenya=password, nombre=nombre, is_admin=is_admin) # Los usuarios que se registran no se añaden como administradores
     db.session.add(nuevo_usuario)
     db.session.flush()  # Para obtener el id del usuario que se acaba de crear
     db.session.commit()
