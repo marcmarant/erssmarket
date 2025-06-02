@@ -1,8 +1,23 @@
-from locust import HttpUser, task, between
+from locust import HttpUser, task, between, events
 import random
 import string
 import json
 import time
+import os
+import mysql.connector
+from datetime import datetime
+
+# Datos de conexión
+db_config = {
+    "host": "localhost",
+    "user": os.getenv("LOCUST_DB_USER"),
+    "password": os.getenv("LOCUST_DB_PASSWORD"),
+    "database": "locust_metrics"
+}
+
+# Conexión global a la BD (mejor usar conexión por hilo en producción)
+db_connection = mysql.connector.connect(**db_config)
+db_cursor = db_connection.cursor()
 
 # Función auxiliar para generar correos únicos en cada prueba
 def generar_email():
@@ -52,7 +67,7 @@ class UsuarioWeb(HttpUser):
             "email": self.email,
             "password": self.password,
             "name": self.nombre
-        })
+        }, name="registro_usuario")
         login(self)
 
     """
@@ -61,7 +76,7 @@ class UsuarioWeb(HttpUser):
     @task(1)
     def cerrar_sesion(self):
         if self.autenticado:
-            with self.client.post("/api/logout", headers=self.headers, catch_response=True) as response:
+            with self.client.post("/api/logout", headers=self.headers, catch_response=True, name="cerrar_sesion") as response:
                 if response.status_code == 200:
                     self.headers = {}
                     self.autenticado = False
@@ -82,14 +97,14 @@ class UsuarioWeb(HttpUser):
     """
     @task(3)
     def ver_menu_principal(self):
-        self.client.get("/api/menu/")
+        self.client.get("/api/menu/", name="ver_menu_principal")
 
     """
     Consulta para obtener todos los productos disponibles
     """
     @task(6)
     def listar_productos(self):
-        response = self.client.get("/api/productos/", headers=self.headers)
+        response = self.client.get("/api/productos/", headers=self.headers, name="listar_productos")
         if response.status_code == 200:
             productos = response.json()
             if productos:
@@ -102,7 +117,7 @@ class UsuarioWeb(HttpUser):
     @task(5)
     def ver_producto_detallado(self):
         if hasattr(self, 'random_producto'):
-            self.client.get(f"/api/productos/{self.random_producto}", headers=self.headers)
+            self.client.get(f"/api/productos/{self.random_producto}", headers=self.headers, name="ver_producto_detallado")
 
     """
     Agrega un producto aleatorio al carrito
@@ -110,7 +125,7 @@ class UsuarioWeb(HttpUser):
     @task(4)
     def agregar_al_carrito(self):
         if self.autenticado and hasattr(self, 'random_producto'):
-            self.client.post("/api/carrito/agregar", headers=self.headers, json={
+            self.client.post("/api/carrito/agregar", headers=self.headers, name="agregar_al_carrito", json={
                 "producto_id": self.random_producto,
                 "cantidad": random.randint(1, 3)
             })
@@ -123,7 +138,7 @@ class UsuarioWeb(HttpUser):
     @task(2)
     def ver_carrito(self):
         if self.autenticado:
-            self.client.get("/api/carrito/", headers=self.headers)
+            self.client.get("/api/carrito/", headers=self.headers, name="ver_carrito")
 
     """
     Retira un producto aleatorio del carrito
@@ -131,7 +146,7 @@ class UsuarioWeb(HttpUser):
     @task(2)
     def retirar_del_carrito(self):
         if self.autenticado and hasattr(self, 'random_producto_en_carrito'):
-            with self.client.delete(f"/api/carrito/{self.random_producto_en_carrito}", headers=self.headers, catch_response=True) as response:
+            with self.client.delete(f"/api/carrito/{self.random_producto_en_carrito}", headers=self.headers, catch_response=True, name="retirar_del_carrito") as response:
                 if response.status_code != 200:
                     response_data = response.json()
                     response.failure(f"{response.status_code} - Fallo al retirar del carrito: {response_data.get('error')}")
@@ -142,7 +157,7 @@ class UsuarioWeb(HttpUser):
     @task(1)
     def vaciar_carrito(self):
         if self.autenticado:
-            self.client.delete("/api/carrito/vaciar", headers=self.headers)
+            self.client.delete("/api/carrito/vaciar", headers=self.headers, name="vaciar_carrito")
 
     """
     Simula la compra de los productos en el carrito.
@@ -151,7 +166,7 @@ class UsuarioWeb(HttpUser):
     @task(2)
     def realizar_checkout(self):
         if self.autenticado:
-            with self.client.post("/api/checkout", headers=self.headers, catch_response=True) as response:
+            with self.client.post("/api/checkout", headers=self.headers, catch_response=True, name="realizar_checkout") as response:
                 if response.status_code == 200:
                     time.sleep(random.uniform(2.5, 4.5))  # Simula espera de pasarela de pago
                     response.success()
@@ -165,7 +180,7 @@ class UsuarioWeb(HttpUser):
     @task(2)
     def ver_pedidos(self):
         if self.autenticado:
-            with self.client.get("/api/pedidos/", headers=self.headers) as response:
+            with self.client.get("/api/pedidos/", headers=self.headers, name="ver_pedidos") as response:
                 if response.status_code == 200:
                     pedidos = response.json()
                     if pedidos:
@@ -178,7 +193,7 @@ class UsuarioWeb(HttpUser):
     @task(2)
     def ver_pedido_detallado(self):
         if self.autenticado and hasattr(self, 'random_pedido'):
-            self.client.get(f"/api/pedidos/{self.random_pedido}", headers=self.headers)
+            self.client.get(f"/api/pedidos/{self.random_pedido}", headers=self.headers, name="ver_pedido_detallado")
 
 """
 Clase que representa a un usuario administrador de la tienda
@@ -208,26 +223,30 @@ class UsuarioAdmin(HttpUser):
             "password": self.password,
             "name": self.nombre,
             "is_admin": True
-        })
+        }, name="registro_admin")
         login(self)
 
-        with self.client.get("/api/productos/", headers=self.headers, catch_response=True) as response:
+        with self.client.get("/api/productos/", headers=self.headers, catch_response=True, name="listar_productos_admin") as response:
             if response.status_code == 200:
                 productos = response.json()
                 self.producto_ids = [p['id'] for p in productos]
+                response.success()
             else:
                 self.producto_ids = []
+                response.failure(f"{response.status_code} - Fallo al listar productos admin: {response.get('error')}")
 
     """
     Simula el aumento de stock de un producto
     """
     @task(1)
     def cambiar_stock(self):
+        print("Ejecutando cambiar_stock")
         if not self.producto_ids:
+            print("No hay productos para cambiar stock, producto_ids está vacío")
             return
         producto_id = random.choice(self.producto_ids)
         nuevo_stock = random.randint(0, 200)
-        self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, json={
+        self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True,name="cambiar_stock_admin", json={
             "stock": nuevo_stock
         })
 
@@ -243,13 +262,14 @@ class UsuarioAdmin(HttpUser):
         else:
             factor = random.uniform(1.0, 2.0)
         producto_id = random.choice(self.producto_ids)
-        with self.client.get(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True) as response:
+        with self.client.get(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True,name="ver_producto_precio_admin") as response:
             if response.status_code == 200:
                 producto = response.json()
                 nuevo_precio = round(producto['precio'] * factor, 2)
-                self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, json={
+                self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, name="cambiar_precio_admin",json={
                     "precio": nuevo_precio
                 })
+                response.success()
 
     """
     Simula la realización de varios cambios en un producto
@@ -261,7 +281,37 @@ class UsuarioAdmin(HttpUser):
         producto_id = random.choice(self.producto_ids)
         nuevo_nombre = random.choice(self.posibles_nombres)
         nueva_descripcion = "Descripción actualizada del producto " + nuevo_nombre
-        self.client.put(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, json={
+        self.client.put(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, name="editar_producto_admin", json={
             "nombre": nuevo_nombre,
             "descripcion": nueva_descripcion,
         })
+
+
+@events.request.add_listener
+def registrar_metricas(request_type, name, response_time, response_length, response, context, exception, start_time, url, **kwargs):
+    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
+    endpoint = name or url
+    method = request_type  # normalmente "GET", "POST", etc.
+    response_length_val = response_length or 0
+    status_code = response.status_code if response else 0
+    is_error = 1 if exception or (status_code >= 400) else 0
+    user_count = 0
+    user_type = "Desconocido"
+    task_name = name or None
+
+    # Obtener número de usuarios concurrentes y tipo de usuario si están disponibles
+    if context and context.environment and context.environment.runner:
+        user_count = sum(context.environment.runner.user_classes_count.values())
+    else:
+        user_count = 0
+
+    try:
+        db_cursor.execute("""
+            INSERT INTO locust_requests 
+                (timestamp, endpoint, method, response_time_ms, response_length, status_code, is_error, user_count, user_type, task_name)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        """, (timestamp, endpoint, method, int(response_time), response_length_val, status_code, is_error, user_count, user_type, task_name))
+        db_connection.commit()
+    except Exception as e:
+        print(f"[ERROR BD] No se pudo guardar métrica: {e}")
+
