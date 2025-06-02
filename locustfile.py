@@ -290,24 +290,19 @@ class UsuarioAdmin(HttpUser):
 @events.request.add_listener
 def registrar_metricas(request_type, name, response_time, response_length, response, context, exception, start_time, url, **kwargs):
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
-    endpoint = name or url
+    endpoint = url or None
     method = request_type
     response_length_val = response_length or 0
     status_code = response.status_code if response else 0
     is_error = 1 if exception or (status_code >= 400) else 0
     task_name = name or None
 
-    user_type = "Desconocido"
-    # Detectamos de que clase era el usuario que ha hecho la request
-    if context and hasattr(context, "user") and context.user:
-        user_type = context.user.__class__.__name__
-
     try:
         db_cursor.execute("""
             INSERT INTO locust_requests 
-                (timestamp, endpoint, method, response_time_ms, response_length, status_code, is_error, user_type, task_name)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """, (timestamp, endpoint, method, int(response_time), response_length_val, status_code, is_error, user_type, task_name))
+                (timestamp, endpoint, method, response_time_ms, response_length, status_code, is_error, task_name)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """, (timestamp, endpoint, method, int(response_time), response_length_val, status_code, is_error, task_name))
         db_connection.commit()
     except Exception as e:
         print(f"[ERROR BD] No se pudo guardar métrica: {e}")
