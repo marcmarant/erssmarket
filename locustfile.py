@@ -33,7 +33,7 @@ def login(user):
     response = user.client.post("/api/login", json={
         "email": user.email,
         "password": user.password
-    })
+    }, name="login_usuario")
 
     if response.status_code == 200:
         token = response.json().get("access_token")
@@ -246,7 +246,7 @@ class UsuarioAdmin(HttpUser):
             return
         producto_id = random.choice(self.producto_ids)
         nuevo_stock = random.randint(0, 200)
-        self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True,name="cambiar_stock_admin", json={
+        self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, name="cambiar_stock_admin", json={
             "stock": nuevo_stock
         })
 
@@ -262,11 +262,11 @@ class UsuarioAdmin(HttpUser):
         else:
             factor = random.uniform(1.0, 2.0)
         producto_id = random.choice(self.producto_ids)
-        with self.client.get(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True,name="ver_producto_precio_admin") as response:
+        with self.client.get(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, name="ver_producto_precio_admin") as response:
             if response.status_code == 200:
                 producto = response.json()
                 nuevo_precio = round(producto['precio'] * factor, 2)
-                self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, name="cambiar_precio_admin",json={
+                self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, name="cambiar_precio_admin",json={
                     "precio": nuevo_precio
                 })
                 response.success()
@@ -281,7 +281,7 @@ class UsuarioAdmin(HttpUser):
         producto_id = random.choice(self.producto_ids)
         nuevo_nombre = random.choice(self.posibles_nombres)
         nueva_descripcion = "Descripción actualizada del producto " + nuevo_nombre
-        self.client.put(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, name="editar_producto_admin", json={
+        self.client.put(f"/api/productos/{producto_id}", headers=self.headers, name="editar_producto_admin", json={
             "nombre": nuevo_nombre,
             "descripcion": nueva_descripcion,
         })
@@ -291,27 +291,23 @@ class UsuarioAdmin(HttpUser):
 def registrar_metricas(request_type, name, response_time, response_length, response, context, exception, start_time, url, **kwargs):
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S.%f')
     endpoint = name or url
-    method = request_type  # normalmente "GET", "POST", etc.
+    method = request_type
     response_length_val = response_length or 0
     status_code = response.status_code if response else 0
     is_error = 1 if exception or (status_code >= 400) else 0
-    user_count = 0
-    user_type = "Desconocido"
     task_name = name or None
 
-    # Obtener número de usuarios concurrentes y tipo de usuario si están disponibles
-    if context and context.environment and context.environment.runner:
-        user_count = sum(context.environment.runner.user_classes_count.values())
-    else:
-        user_count = 0
+    user_type = "Desconocido"
+    # Detectamos de que clase era el usuario que ha hecho la request
+    if context and hasattr(context, "user") and context.user:
+        user_type = context.user.__class__.__name__
 
     try:
         db_cursor.execute("""
             INSERT INTO locust_requests 
-                (timestamp, endpoint, method, response_time_ms, response_length, status_code, is_error, user_count, user_type, task_name)
+                (timestamp, endpoint, method, response_time_ms, response_length, status_code, is_error, user_type, task_name)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-        """, (timestamp, endpoint, method, int(response_time), response_length_val, status_code, is_error, user_count, user_type, task_name))
+        """, (timestamp, endpoint, method, int(response_time), response_length_val, status_code, is_error, user_type, task_name))
         db_connection.commit()
     except Exception as e:
         print(f"[ERROR BD] No se pudo guardar métrica: {e}")
-
