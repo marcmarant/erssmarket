@@ -229,19 +229,23 @@ class UsuarioAdmin(HttpUser):
             if response.status_code == 200:
                 productos = response.json()
                 self.producto_ids = [p['id'] for p in productos]
+                response.success()
             else:
                 self.producto_ids = []
+                response.failure(f"{response.status_code} - Fallo al listar productos admin: {response.get('error')}")
 
     """
     Simula el aumento de stock de un producto
     """
     @task(1)
     def cambiar_stock(self):
+        print("Ejecutando cambiar_stock")
         if not self.producto_ids:
+            print("No hay productos para cambiar stock, producto_ids está vacío")
             return
         producto_id = random.choice(self.producto_ids)
         nuevo_stock = random.randint(0, 200)
-        self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True,name="cambiar_stock", json={
+        self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True,name="cambiar_stock_admin", json={
             "stock": nuevo_stock
         })
 
@@ -257,13 +261,14 @@ class UsuarioAdmin(HttpUser):
         else:
             factor = random.uniform(1.0, 2.0)
         producto_id = random.choice(self.producto_ids)
-        with self.client.get(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True,name="ver_producto_precio") as response:
+        with self.client.get(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True,name="ver_producto_precio_admin") as response:
             if response.status_code == 200:
                 producto = response.json()
                 nuevo_precio = round(producto['precio'] * factor, 2)
-                self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, name="cambiar_precio",json={
+                self.client.patch(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, name="cambiar_precio_admin",json={
                     "precio": nuevo_precio
                 })
+                response.success()
 
     """
     Simula la realización de varios cambios en un producto
@@ -275,7 +280,7 @@ class UsuarioAdmin(HttpUser):
         producto_id = random.choice(self.producto_ids)
         nuevo_nombre = random.choice(self.posibles_nombres)
         nueva_descripcion = "Descripción actualizada del producto " + nuevo_nombre
-        self.client.put(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, name="editar_producto", json={
+        self.client.put(f"/api/productos/{producto_id}", headers=self.headers, catch_response=True, name="editar_producto_admin", json={
             "nombre": nuevo_nombre,
             "descripcion": nueva_descripcion,
         })
